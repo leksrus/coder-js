@@ -75,6 +75,30 @@ function loadProducts() {
   }
 }
 
+function loadProductsInHome() {
+  let productElement = document.getElementById("product-list-home");
+
+  if (productElement) {
+    const products = preloadProducts();
+    setToLocalStorage(localkeys.productStock, products);
+    productElement.innerHTML = "";
+
+    for (const product of products) {
+      productElement.insertAdjacentHTML(
+        "beforeend",
+        `
+      <div class="card-list font-varela">
+        <img class="product-img" src="${product.imgSrc}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p class="price">$${product.price}</p>
+        <p>${product.desctiption}</p>
+      </div>
+      `
+      );
+    }
+  }
+}
+
 function setToLocalStorage(key, item) {
   const storageItem = JSON.parse(localStorage.getItem(key));
 
@@ -233,6 +257,7 @@ loginBtn?.addEventListener("click", function (e) {
   loginUser();
 });
 
+loadProductsInHome();
 loadProducts();
 loadRegisteredUsers();
 checkLogedUser();
