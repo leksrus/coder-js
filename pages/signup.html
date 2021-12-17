@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&family=Mukta&family=Share+Tech+Mono&display=swap&family=Varela+Round&display=swa"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <div class="grid-container">
+      <!-- menu de navegacion -->
+      <div class="header">
+        <header>
+          <nav>
+            <!-- logo -->
+            <ul class="menu font-mukta">
+              <li class="logo">
+                <div class="logo">
+                  <a href="../index.html">
+                    <img class="logo-img" src="../images/sale.png" width="75px" height="75px" alt="logo" />
+                  </a>
+
+                  <h1 class="font-share-tech-mono logo-h1">Tech Market</h1>
+                </div>
+              </li>
+              <!-- menu -->
+              <li class="item"><a href="../index.html">Home</a></li>
+              <li class="item"><a href="./products.html">Products</a></li>
+              <li class="item"><a href="./about.html">About</a></li>
+              <li class="item"><a href="./contact.html">Contact</a></li>
+              <li>
+                <a class="cart" href="./cart.html">
+                  <p>Cart</p>
+                  <img class="img-cart" height="30px" width="30px" src="../images/shoping-cart.png" alt="Cart"
+                /></a>
+              </li>
+              <li class="button"><a href="./signin.html">Sign In</a></li>
+              <li class="button-secondary">
+                <a href="./signup.html">Sign Up</a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+      </div>
+      <div class="body-container">
+        <main>
+          <div class="page-title">
+            <!-- seccion titulo -->
+            <section>
+              <h2 class="font-mukta size-35 align-center">
+                <em>Home page</em>
+              </h2>
+            </section>
+          </div>
+          <!-- seccion form signup -->
+          <section>
+            <div class="form-sign">
+              <form class="form-container" action="signup.html">
+                <label class="font-mukta size-20" for="fname">First name:</label>
+                <input class="form-input font-baloo2" type="text" id="fname" name="fname" required placeholder="write you firstname" />
+                <label class="font-mukta size-20" for="lname">Last name:</label>
+                <input class="form-input font-baloo2" type="text" id="lname" name="lname" required placeholder="write you lastname" />
+                <label class="font-mukta size-20" for="uname">User name:</label>
+                <input class="form-input font-baloo2" type="text" id="uname" name="uname" required placeholder="write you username" />
+                <label class="font-mukta size-20" for="password">Password:</label>
+                <input class="form-input font-baloo2" type="password" id="password" name="password" required placeholder="write you password" />
+                <label class="font-mukta size-20" for="rpassword">Repeat password:</label>
+                <input class="form-input font-baloo2" type="rpassword" id="rpassword" name="rpassword" required placeholder="write you password again" />
+                <input class="font-mukta btn size-20" type="submit" value="Register" />
+              </form>
+            </div>
+          </section>
+        </main>
+      </div>
+      <!-- footer con redes y metodo de contacto -->
+      <div class="footer-container">
+        <footer>
+          <div class="footer-box">
+            <div>
+              <a href="https://instagram.com" target="_blank">
+                <img src="../images/instagram.png" width="50px" alt="our instagram" />
+              </a>
+            </div>
+            <div>
+              <a href="https://facebook.com" target="_blank">
+                <img src="../images/facebook.ico" width="50px" alt="our facebook" />
+              </a>
+            </div>
+            <div>
+              <img src="../images/whatsapp.png" width="50px" alt="our whatsapp" />
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script src="../js/main.js"></script>
+  </body>
+</html>
