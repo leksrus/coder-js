@@ -22,22 +22,22 @@ class User {
   }
 }
 
-function preloadProducts() {
+function preloadProducts(routePrefix) {
   const products = [];
-  products.push(new Product(1, "Cpu Intel I5", "Some text..", 190.99, "/images/products/cpu-intel-i5.jpg"));
-  products.push(new Product(2, "Keyboard HyperX", "Some text..", 19.99, "/images/products/mouse-redrgon-m711.jpg"));
-  products.push(new Product(3, "Memory HyperX", "Some text..", 250.99, "/images/products/memory-hyperx.jpg"));
-  products.push(new Product(4, "Mouse Redragon M610", "Some text..", 25.99, "/images/products/mouse-redrgon-m610.jpg"));
-  products.push(new Product(5, "Keyboard Redragon K551", "Some text..", 27.99, "/images/products/keyboard-redragon-k551.jfif"));
-  products.push(new Product(6, "MSI RTX 3080TI", "Some text..", 550.99, "/images/products/msi-rtx-3080ti.jpg"));
-  products.push(new Product(7, "SSD Firecuda", "Some text..", 240.99, "/images/products/ssd-firecuda.jpg"));
-  products.push(new Product(8, "Cpu Intel I5", "Some text..", 190.99, "/images/products/cpu-intel-i5.jpg"));
-  products.push(new Product(9, "Keyboard HyperX", "Some text..", 19.99, "/images/products/mouse-redrgon-m711.jpg"));
-  products.push(new Product(10, "Memory HyperX", "Some text..", 250.99, "/images/products/memory-hyperx.jpg"));
-  products.push(new Product(11, "Mouse Redragon M610", "Some text..", 25.99, "/images/products/mouse-redrgon-m610.jpg"));
-  products.push(new Product(12, "Keyboard Redragon K551", "Some text..", 27.99, "/images/products/keyboard-redragon-k551.jfif"));
-  products.push(new Product(13, "MSI RTX 3080TI", "Some text..", 550.99, "/images/products/msi-rtx-3080ti.jpg"));
-  products.push(new Product(14, "SSD Firecuda", "Some text..", 240.99, "/images/products/ssd-firecuda.jpg"));
+  products.push(new Product(1, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
+  products.push(new Product(2, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
+  products.push(new Product(3, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
+  products.push(new Product(4, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
+  products.push(new Product(5, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
+  products.push(new Product(6, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg`));
+  products.push(new Product(7, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
+  products.push(new Product(8, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
+  products.push(new Product(9, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
+  products.push(new Product(10, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
+  products.push(new Product(11, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
+  products.push(new Product(12, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
+  products.push(new Product(13, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg"`));
+  products.push(new Product(14, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
 
   return products;
 }
@@ -54,7 +54,7 @@ function loadProducts() {
   let productElement = document.getElementById("product-list");
 
   if (productElement) {
-    const products = preloadProducts();
+    const products = preloadProducts("..");
     setToLocalStorage(localkeys.productStock, products);
     productElement.innerHTML = "";
 
@@ -79,7 +79,7 @@ function loadProductsInHome() {
   let productElement = document.getElementById("product-list-home");
 
   if (productElement) {
-    const products = preloadProducts();
+    const products = preloadProducts(".");
     setToLocalStorage(localkeys.productStock, products);
     productElement.innerHTML = "";
 
