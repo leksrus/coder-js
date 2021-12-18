@@ -30,132 +30,20 @@ class User {
 
 function preloadProducts(routePrefix) {
   const products = [];
-  products.push(
-    new Product(
-      1,
-      "Cpu Intel I5",
-      "Some text..",
-      190.99,
-      `${routePrefix}/images/products/cpu-intel-i5.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      2,
-      "Keyboard HyperX",
-      "Some text..",
-      19.99,
-      `${routePrefix}/images/products/mouse-redrgon-m711.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      3,
-      "Memory HyperX",
-      "Some text..",
-      250.99,
-      `${routePrefix}/images/products/memory-hyperx.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      4,
-      "Mouse Redragon M610",
-      "Some text..",
-      25.99,
-      `${routePrefix}/images/products/mouse-redrgon-m610.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      5,
-      "Keyboard Redragon K551",
-      "Some text..",
-      27.99,
-      `${routePrefix}/images/products/keyboard-redragon-k551.jfif`
-    )
-  );
-  products.push(
-    new Product(
-      6,
-      "MSI RTX 3080TI",
-      "Some text..",
-      550.99,
-      `${routePrefix}/images/products/msi-rtx-3080ti.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      7,
-      "SSD Firecuda",
-      "Some text..",
-      240.99,
-      `${routePrefix}/images/products/ssd-firecuda.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      8,
-      "Cpu Intel I5",
-      "Some text..",
-      190.99,
-      `${routePrefix}/images/products/cpu-intel-i5.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      9,
-      "Keyboard HyperX",
-      "Some text..",
-      19.99,
-      `${routePrefix}/images/products/mouse-redrgon-m711.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      10,
-      "Memory HyperX",
-      "Some text..",
-      250.99,
-      `${routePrefix}/images/products/memory-hyperx.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      11,
-      "Mouse Redragon M610",
-      "Some text..",
-      25.99,
-      `${routePrefix}/images/products/mouse-redrgon-m610.jpg`
-    )
-  );
-  products.push(
-    new Product(
-      12,
-      "Keyboard Redragon K551",
-      "Some text..",
-      27.99,
-      `${routePrefix}/images/products/keyboard-redragon-k551.jfif`
-    )
-  );
-  products.push(
-    new Product(
-      13,
-      "MSI RTX 3080TI",
-      "Some text..",
-      550.99,
-      `${routePrefix}/images/products/msi-rtx-3080ti.jpg"`
-    )
-  );
-  products.push(
-    new Product(
-      14,
-      "SSD Firecuda",
-      "Some text..",
-      240.99,
-      `${routePrefix}/images/products/ssd-firecuda.jpg`
-    )
-  );
+  products.push(new Product(1, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
+  products.push(new Product(2, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
+  products.push(new Product(3, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
+  products.push(new Product(4, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
+  products.push(new Product(5, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
+  products.push(new Product(6, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg`));
+  products.push(new Product(7, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
+  products.push(new Product(8, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
+  products.push(new Product(9, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
+  products.push(new Product(10, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
+  products.push(new Product(11, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
+  products.push(new Product(12, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
+  products.push(new Product(13, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg"`));
+  products.push(new Product(14, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
 
   return products;
 }
@@ -232,14 +120,10 @@ function setToLocalStorage(key, item, override) {
 function loginUser() {
   const userName = document.getElementById("uname");
   const pass = document.getElementById("password");
-  const registerUsers = JSON.parse(
-    localStorage.getItem(localkeys.registerUsers)
-  );
+  const registerUsers = JSON.parse(localStorage.getItem(localkeys.registerUsers));
 
   if (userName && pass && registerUsers) {
-    const user = registerUsers.find(
-      (x) => x.username === userName.value && x.password === pass.value
-    );
+    const user = registerUsers.find((x) => x.username === userName.value && x.password === pass.value);
 
     if (user) {
       setUpLogedUser(user);
@@ -272,23 +156,11 @@ function registerUser() {
   const message = document.getElementById("message");
   message?.parentNode.removeChild(message);
 
-  if (
-    firstName.value &&
-    lastName.value &&
-    userName.value &&
-    password.value &&
-    repeatedPassword.value
-  ) {
+  if (firstName.value && lastName.value && userName.value && password.value && repeatedPassword.value) {
     if (password.value === repeatedPassword.value) {
       const users = JSON.parse(localStorage.getItem(localkeys.registerUsers));
       const lastUserId = Math.max(...users.map((u) => u.id));
-      const user = new User(
-        lastUserId + 1,
-        userName.value,
-        firstName.value,
-        lastName.value,
-        password.value
-      );
+      const user = new User(lastUserId + 1, userName.value, firstName.value, lastName.value, password.value);
       users.push(user);
       setToLocalStorage(localkeys.registerUsers, users, true);
 
@@ -427,9 +299,7 @@ class Cart {
 //add product list to cart and retain it in localstorage
 function addProduct(productId) {
   const cart = setUpCartObject();
-  const stockProducts = JSON.parse(
-    localStorage.getItem(localkeys.productStock)
-  );
+  const stockProducts = JSON.parse(localStorage.getItem(localkeys.productStock));
 
   if (stockProducts) {
     const product = stockProducts.find((x) => x.id === productId);
@@ -444,9 +314,7 @@ function addProduct(productId) {
 //typificate Cart object
 function setUpCartObject() {
   const cart = new Cart();
-  const storageProducts = JSON.parse(
-    localStorage.getItem(localkeys.cartProducts)
-  );
+  const storageProducts = JSON.parse(localStorage.getItem(localkeys.cartProducts));
 
   if (storageProducts) {
     for (const p of storageProducts) {
@@ -462,8 +330,7 @@ function showCart() {
   const cartListElment = document.getElementById("cart-items");
 
   if (cartListElment) {
-    const cartProductElements =
-      cartListElment.getElementsByClassName("cart-flex");
+    const cartProductElements = cartListElment.getElementsByClassName("cart-flex");
 
     if (cartProductElements || cartProductElements.length > 0) {
       for (const e of cartProductElements) {
@@ -477,9 +344,7 @@ function showCart() {
       const cartProductSplat = cart.showCartItems();
 
       for (const product of cartProductSplat) {
-        const count = cart
-          .getProducts()
-          .filter((x) => x.id === product.id).length;
+        const count = cart.getProducts().filter((x) => x.id === product.id).length;
         cartListElment.insertAdjacentHTML(
           "beforeend",
           `
@@ -516,7 +381,6 @@ function productAddBind() {
 
 const loginBtn = document.getElementById("login");
 const registr = document.getElementById("register");
-const cartBtn = document.getElementsByClassName("cart");
 
 loginBtn?.addEventListener("click", function (e) {
   e.preventDefault();
@@ -528,16 +392,12 @@ registr?.addEventListener("click", function (e) {
   registerUser();
 });
 
-cartBtn[0]?.addEventListener("click", function (e) {
-  e.preventDefault();
-  showCart();
-});
-
 loadProductsInHome();
 loadProducts();
 loadRegisteredUsers();
 checkLogedUser();
 productAddBind();
+showCart();
 
 // function calculateDispatchPrice(zipCode) {
 //   let dipatchPrice = 0.0;
