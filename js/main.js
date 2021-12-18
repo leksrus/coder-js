@@ -63,7 +63,7 @@ function loadProducts() {
 
   if (productElement) {
     const products = preloadProducts("..");
-    setToLocalStorage(localkeys.productStock, products, false);
+    setToLocalStorage(localkeys.productStock, products, true);
     productElement.innerHTML = "";
 
     for (const product of products) {
@@ -84,13 +84,12 @@ function loadProducts() {
 }
 
 //load productos in home
-
 function loadProductsInHome() {
   let productElement = document.getElementById("product-list-home");
 
   if (productElement) {
     const products = preloadProducts(".");
-    setToLocalStorage(localkeys.productStock, products, false);
+    setToLocalStorage(localkeys.productStock, products, true);
     productElement.innerHTML = "";
 
     for (const product of products) {
