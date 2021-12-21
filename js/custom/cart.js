@@ -19,6 +19,10 @@ class Cart {
     return this.products;
   }
 
+  getProduct(id) {
+    return this.products.find((x) => x.id === parseInt(id));
+  }
+
   getTotalProductsPrice() {
     let totalPrice = 0.0;
     for (const product of this.products) {

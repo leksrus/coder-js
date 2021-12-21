@@ -166,6 +166,7 @@ function addProduct(productId) {
     if (product) {
       cart.addProduct(product);
       setToLocalStorage(localkeys.cartProducts, cart.getProducts(), true);
+      showItemsCuantity();
     }
   }
 }
@@ -176,7 +177,7 @@ function showItemsCuantity() {
 
   if (cartItemsCountElement.length > 0) {
     const cart = setUpCartObject();
-    cartItemsCountElement.text(`${cart.showCartItems().length || 0}`);
+    cartItemsCountElement.text(`${cart.showCartItems()?.length || 0}`);
   }
 }
 
@@ -186,16 +187,16 @@ function showCart() {
 
   if (cartElment.length > 0) {
     const cartItemElements = $("#cart-list > .align-items-start");
-    const hrElement = $("#cart-list > hr").first();
     cartItemElements.remove();
+    const hrElement = $("#cart-list > hr").first().next();
     const cart = setUpCartObject();
 
-    if (cart) {
+    if (cart && cart.getProducts().length > 0) {
       const cartProductSplat = cart.showCartItems();
 
       for (const product of cartProductSplat) {
         const count = cart.getProducts().filter((x) => x.id === product.id).length;
-        hrElement.after(
+        hrElement.before(
           `
           <div class="row align-items-start">
           <div class="col-12">
@@ -220,7 +221,7 @@ function showCart() {
                   <div class="card-body">
                     <div class="d-flex align-items-end flex-column">
                       <div class="p-2 flex-grow-1">
-                        <a class="btn btn-outline-danger col-12" href="#" role="button">Remove</a>
+                        <a id="${product.id}" class="btn btn-outline-danger col-12" href="#" role="button">Remove</a>
                       </div>
                     </div>
                   </div>
@@ -229,9 +230,27 @@ function showCart() {
             </div>
           </div>
         </div>
-    `
+          `
         );
+        cartElment.find(`#${product.id}`).click(() => {
+          $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
+          removeProductFromCart(parseInt(this.event.target.id));
+        });
       }
+    }
+  }
+}
+
+function removeProductFromCart(productId) {
+  const cart = setUpCartObject();
+
+  if (cart && cart.getProducts().length > 0) {
+    const product = cart.getProduct(productId);
+
+    if (product) {
+      cart.revomePoduct(product);
+      setToLocalStorage(localkeys.cartProducts, cart.getProducts(), true);
+      showItemsCuantity();
     }
   }
 }
@@ -267,14 +286,17 @@ $(() => {
     const registerUsers = JSON.parse(localStorage.getItem(localkeys.registerUsers));
 
     if (userName && pass && registerUsers) {
-      const user = registerUsers.find((x) => x.username === userName.value && x.password === pass.value);
+      const user = registerUsers.find((x) => x.username === userName && x.password === pass);
 
       if (user) {
-        setUpLogedUser(user);
+        // setUpLogedUser(user);
         // const logoutBtn = document.getElementById("sign-out");
         // logoutBtn.addEventListener("click", logoutUser);
 
         // return;
+
+        $(location).prop("href", "/");
+        return;
       }
     }
 
@@ -345,6 +367,12 @@ $(() => {
     <label id="message" class="form-label font-mukta" style="color: red;" >Ingresed data for register the user was incorrect</label>
     `
     );
+  });
+
+  $("#remove-all-item").click(() => {
+    localStorage.removeItem(localkeys.cartProducts);
+    const cartItemElements = $("#cart-list > .align-items-start");
+    cartItemElements.remove();
   });
 });
 
