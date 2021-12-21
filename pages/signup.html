@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="./images/favicon.png" />
+    <link rel="icon" type="image/png" href="../images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,96 +12,131 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&family=Mukta&family=Share+Tech+Mono&display=swap&family=Varela+Round&display=swa"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <title>Sign Up</title>
   </head>
   <body>
-    <div class="grid-container">
+    <head>
       <!-- menu de navegacion -->
-      <div class="header">
-        <header>
-          <nav>
-            <!-- logo -->
-            <ul class="menu font-mukta">
-              <li class="logo">
-                <div class="logo">
-                  <a href="../index.html">
-                    <img class="logo-img" src="../images/sale.png" width="75px" height="75px" alt="logo" />
-                  </a>
-
-                  <h1 class="font-share-tech-mono logo-h1">Tech Market</h1>
-                </div>
+      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="../index.html"
+            ><h1 class="font-share-tech-mono"><img class="logo-img" src="../images/sale.png" width="50px" height="50px" alt="logo" />&nbsp;Tech Market</h1></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse size-20" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 menu">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
               </li>
-              <!-- menu -->
-              <li class="item"><a href="../index.html">Home</a></li>
-              <li class="item"><a href="./products.html">Products</a></li>
-              <li class="item"><a href="./about.html">About</a></li>
-              <li class="item"><a href="./contact.html">Contact</a></li>
-              <li>
-                <a class="cart" href="./cart.html">
-                  <p>Cart</p>
-                  <img class="img-cart" height="30px" width="30px" src="../images/shoping-cart.png" alt="Cart"
-                /></a>
+              <li class="nav-item">
+                <a class="nav-link" href="./products.html">Products</a>
               </li>
-              <li class="button"><a href="./signin.html">Sign In</a></li>
-              <li class="button-secondary">
-                <a href="./signup.html">Sign Up</a>
+              <li class="nav-item">
+                <a class="nav-link" href="./about.html">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./contact.html">Contact</a>
               </li>
             </ul>
-          </nav>
-        </header>
-      </div>
-      <div class="body-container">
-        <main>
-          <div class="page-title">
-            <!-- seccion titulo -->
-            <section>
-              <h2 class="font-mukta size-35 align-center">
-                <em>Signup page</em>
-              </h2>
-            </section>
-          </div>
-          <!-- seccion form signup -->
-          <section>
-            <div class="form-sign">
-              <form class="form-container" action="signup.html">
-                <label class="font-mukta size-20" for="fname">First name:</label>
-                <input class="form-input font-baloo2" type="text" id="fname" name="fname" required placeholder="write you firstname" />
-                <label class="font-mukta size-20" for="lname">Last name:</label>
-                <input class="form-input font-baloo2" type="text" id="lname" name="lname" required placeholder="write you lastname" />
-                <label class="font-mukta size-20" for="uname">User name:</label>
-                <input class="form-input font-baloo2" type="text" id="uname" name="uname" required placeholder="write you username" />
-                <label class="font-mukta size-20" for="password">Password:</label>
-                <input class="form-input font-baloo2" type="password" id="password" name="password" required placeholder="write you password" />
-                <label class="font-mukta size-20" for="rpassword">Repeat password:</label>
-                <input class="form-input font-baloo2" type="password" id="rpassword" name="rpassword" required placeholder="write you password again" />
-                <input id="register" class="font-mukta btn size-20" type="submit" value="Register" />
-              </form>
-            </div>
-          </section>
-        </main>
-      </div>
-      <!-- footer con redes y metodo de contacto -->
-      <div class="footer-container">
-        <footer>
-          <div class="footer-box">
-            <div>
-              <a href="https://instagram.com" target="_blank">
-                <img src="../images/instagram.png" width="50px" alt="our instagram" />
+            <!-- carrito / login / register -->
+            <div class="d-flex">
+              <a class="btn btn-outline-warning me-5 position-relative" href="./cart.html" role="button"
+                >Cart
+                <img class="img-cart" src="../images/shoping-cart.png" alt="Cart" />
+                <span id="card-items-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> 6 </span>
               </a>
-            </div>
-            <div>
-              <a href="https://facebook.com" target="_blank">
-                <img src="../images/facebook.ico" width="50px" alt="our facebook" />
-              </a>
-            </div>
-            <div>
-              <img src="../images/whatsapp.png" width="50px" alt="our whatsapp" />
+              <a class="btn btn-outline-primary me-3" href="./signin.html" role="button">Sing in</a>
+              <a class="btn btn-outline-success me-3" href="./signup.html" role="button">Sign up</a>
             </div>
           </div>
-        </footer>
+        </div>
+      </nav>
+    </head>
+    <main>
+      <!-- seccion titulo -->
+      <section class="container">
+        <div class="row align-items-start m-3">
+          <div class="col-12 page-title">
+            <h2 class="font-mukta size-35 text-center">
+              <em>Sign up page</em>
+            </h2>
+          </div>
+        </div>
+      </section>
+      <!-- registro de usuario -->
+      <section class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6 col-lg-4">
+            <form class="g-3 form-input p-5">
+              <div class="mb-3">
+                <label class="form-label font-mukta size-20" for="fname">First name:</label>
+                <input class="form-control font-baloo2" type="text" id="fname" name="fname" required placeholder="write you firstname" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-mukta size-20" for="lname">Last name:</label>
+                <input class="form-control font-baloo2" type="text" id="lname" name="lname" required placeholder="write you lastname" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-mukta size-20" for="uname">User name:</label>
+                <input class="form-control font-baloo2" type="text" id="uname" name="uname" required placeholder="write you username" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-mukta size-20" for="password">Password:</label>
+                <input class="form-control font-baloo2" type="password" id="password" name="password" required placeholder="write you password" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-mukta size-20" for="rpassword">Repeat password:</label>
+                <input class="form-control font-baloo2" type="password" id="rpassword" name="rpassword" required placeholder="repeat you password" />
+              </div>
+              <div class="col-12">
+                <button id="signup" class="btn-custom mt-5" type="submit">Register</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- footer con redes y metodo de contacto -->
+    <footer
+      class="
+        d-flex
+        align-content-center
+        justify-content-center justify-content-sm-center justify-content-md-between justify-content-lg-between
+        footer-container
+        mt-5
+      "
+    >
+      <div class="m-5">
+        <a href="https://instagram.com" target="_blank">
+          <img src="../images/instagram.png" width="50px" alt="our instagram" />
+        </a>
       </div>
-    </div>
-    <script src="../js/main.js"></script>
+      <div class="m-5">
+        <a href="https://facebook.com" target="_blank">
+          <img src="../images/facebook.ico" width="50px" alt="our facebook" />
+        </a>
+      </div>
+      <div class="m-5">
+        <img src="../images/whatsapp.png" width="50px" alt="our whatsapp" />
+      </div>
+    </footer>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/custom/user.js"></script>
+    <script src="../js/custom/product.js"></script>
+    <script src="../js/custom/cart.js"></script>
+    <script src="../js/custom/main.js"></script>
   </body>
 </html>

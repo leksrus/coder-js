@@ -12,155 +12,244 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&family=Mukta&family=Share+Tech+Mono&display=swap&family=Varela+Round&display=swa"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/styles.css" />
     <title>Home</title>
   </head>
   <body>
-    <div class="grid-container">
+    <head>
       <!-- menu de navegacion -->
-      <div class="header">
-        <header>
-          <nav>
-            <!-- logo -->
-            <ul class="menu font-mukta">
-              <li class="logo">
-                <div class="logo">
-                  <a href="index.html">
-                    <img class="logo-img" src="./images/sale.png" width="75px" height="75px" alt="logo" />
-                  </a>
-
-                  <h1 class="font-share-tech-mono logo-h1">Tech Market</h1>
-                </div>
+      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="./index.html"
+            ><h1 class="font-share-tech-mono"><img class="logo-img" src="images/sale.png" width="50px" height="50px" alt="logo" />&nbsp;Tech Market</h1></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse size-20" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 menu">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="./index.html">Home</a>
               </li>
-              <!-- menu -->
-              <li class="item"><a href="./index.html">Home</a></li>
-              <li class="item"><a href="./pages/products.html">Products</a></li>
-              <li class="item"><a href="./pages/about.html">About</a></li>
-              <li class="item"><a href="./pages/contact.html">Contact</a></li>
-              <li>
-                <a class="cart" href="./pages/cart.html">
-                  <p>Cart</p>
-                  <img class="img-cart" height="30px" width="30px" src="./images/shoping-cart.png" alt="Cart"
-                /></a>
+              <li class="nav-item">
+                <a class="nav-link" href="./pages/products.html">Products</a>
               </li>
-              <li class="button"><a href="./pages/signin.html">Sign In</a></li>
-              <li class="button-secondary">
-                <a href="./pages/signup.html">Sign Up</a>
+              <li class="nav-item">
+                <a class="nav-link" href="./pages/about.html">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./pages/contact.html">Contact</a>
               </li>
             </ul>
-          </nav>
-        </header>
-      </div>
-      <div class="body-container">
-        <main>
-          <div class="page-title">
-            <!-- seccion titulo -->
-            <section>
-              <h2 class="font-mukta size-35 align-center">
-                <em>Home page</em>
-              </h2>
-            </section>
-          </div>
-          <!-- lista de productos destacados -->
-          <section>
-            <div id="product-list-home" class="product-flex margin-left-100">
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/cpu-intel-i5.jpg" alt="Cpu Intel I5" />
-                <h3>Cpu Intel I5</h3>
-                <p class="price">$190.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/mouse-redrgon-m711.jpg" alt="Mouse Redrgon" />
-                <h3>Keyboard HyperX</h3>
-                <p class="price">$19.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/memory-hyperx.jpg" alt="Memory HyperX" />
-                <h3>Memory HyperX</h3>
-                <p class="price">$250.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
-                <h3>Mouse Redragon M610</h3>
-                <p class="price">$25.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/keyboard-redragon-k551.jfif" alt="Keyboard Redragon K551" />
-                <h3>Keyboard Redragon K551</h3>
-                <p class="price">$27.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/msi-rtx-3080ti.jpg" alt="MSI RTX 3080TI" />
-                <h3>MSI RTX 3080TI</h3>
-                <p class="price">$550.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/ssd-firecuda.jpg" alt="SSD Firecuda" />
-                <h3>SSD Firecuda</h3>
-                <p class="price">$240.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
-                <h3>Mouse Redragon M610</h3>
-                <p class="price">$250.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
-                <h3>Mouse Redragon M610</h3>
-                <p class="price">$250.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
-                <h3>Mouse Redragon M610</h3>
-                <p class="price">$250.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/ssd-firecuda.jpg" alt="SSD Firecuda" />
-                <h3>SSD Firecuda</h3>
-                <p class="price">$250.99</p>
-                <p>Some text..</p>
-              </div>
-              <div class="card-list font-varela">
-                <img class="product-img" src="./images/products/ssd-firecuda.jpg" alt="SSD Firecuda" />
-                <h3>SSD Firecuda</h3>
-                <p class="price">$250.99</p>
-                <p>Some text..</p>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
-      <!-- footer con redes y metodo de contacto -->
-      <div class="footer-container">
-        <footer>
-          <div class="footer-box">
-            <div>
-              <a href="https://instagram.com" target="_blank">
-                <img src="./images/instagram.png" width="50px" alt="our instagram" />
+            <!-- carrito / login / register -->
+            <div class="d-flex">
+              <a class="btn btn-outline-warning me-5 position-relative" href="./pages/cart.html" role="button"
+                >Cart
+                <img class="img-cart" src="images/shoping-cart.png" alt="Cart" />
+                <span id="card-items-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> 6 </span>
               </a>
-            </div>
-            <div>
-              <a href="https://facebook.com" target="_blank">
-                <img src="./images/facebook.ico" width="50px" alt="our facebook" />
-              </a>
-            </div>
-            <div>
-              <img src="./images/whatsapp.png" width="50px" alt="our whatsapp" />
+              <a class="btn btn-outline-primary me-3" href="./pages/signin.html" role="button">Sing in</a>
+              <a class="btn btn-outline-success me-3" href="./pages/signup.html" role="button">Sign up</a>
             </div>
           </div>
-        </footer>
+        </div>
+      </nav>
+    </head>
+    <main>
+      <!-- seccion titulo -->
+      <section class="container">
+        <div class="row align-items-start m-3">
+          <div class="col-12 page-title">
+            <h2 class="font-mukta size-35 text-center">
+              <em>Home page</em>
+            </h2>
+          </div>
+        </div>
+      </section>
+      <!-- procutos destacados -->
+      <section class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div id="carouselExampleIndicators" class="carousel slide m-3" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="0"
+                  class="active"
+                  aria-current="true"
+                  aria-label="Slide 1"
+                ></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="./images/products/carousel-intel-i5.jpg" class="d-block image-carousel" alt="Intel I5" />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5>Intel I5</h5>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img src="./images/products/carousel-baracuda-ssd.jpg" class="d-block image-carousel" alt="Baracuda SSD" />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5>Baracuda SSD</h5>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img src="./images/products/carousel-rtx-3080ti.jpg" class="d-block image-carousel" alt="MSI RTX 3080TI" />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5>MSI RTX 3080TI</h5>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- productos destacados lista amplia -->
+      <section id="product-home-section" class="container">
+        <div class="row align-items-start">
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/cpu-intel-i5.jpg" alt="Cpu Intel I5" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>Cpu Intel I5e</b></h5>
+                <p class="card-text text-center cart-product-price">$190.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/mouse-redrgon-m711.jpg" alt="Mouse Redrgon" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b> Keyboard HyperX</b></h5>
+                <p class="card-text text-center cart-product-price">$19.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/memory-hyperx.jpg" alt="Memory HyperX" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>Memory HyperX</b></h5>
+                <p class="card-text text-center cart-product-price">$250.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>Mouse Redragon M610</b></h5>
+                <p class="card-text text-center cart-product-price">$29.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/keyboard-redragon-k551.jfif" alt="Keyboard Redragon K551" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>Keyboard Redragon K551</b></h5>
+                <p class="card-text text-center cart-product-price">$25.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/msi-rtx-3080ti.jpg" alt="MSI RTX 3080TI" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>MSI RTX 3080TI</b></h5>
+                <p class="card-text text-center cart-product-price">$550.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/ssd-firecuda.jpg" alt="SSD Firecuda" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>SSD Firecuda</b></h5>
+                <p class="card-text text-center cart-product-price">$250.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>Mouse Redragon M610</b></h5>
+                <p class="card-text text-center cart-product-price">$29.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./images/products/mouse-redrgon-m610.jpg" alt="Mouse Redragon M610" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>Mouse Redragon M610</b></h5>
+                <p class="card-text text-center cart-product-price">$29.99</p>
+                <p class="card-text">Some text Some text Some texts Some text..</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- footer con redes y metodo de contacto -->
+    <footer
+      class="
+        d-flex
+        align-content-center
+        justify-content-center justify-content-sm-center justify-content-md-between justify-content-lg-between
+        footer-container
+        mt-5
+      "
+    >
+      <div class="m-5">
+        <a href="https://instagram.com" target="_blank">
+          <img src="./images/instagram.png" width="50px" alt="our instagram" />
+        </a>
       </div>
-    </div>
-    <script src="./js/main.js"></script>
+      <div class="m-5">
+        <a href="https://facebook.com" target="_blank">
+          <img src="./images/facebook.ico" width="50px" alt="our facebook" />
+        </a>
+      </div>
+      <div class="m-5">
+        <img src="./images/whatsapp.png" width="50px" alt="our whatsapp" />
+      </div>
+    </footer>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/custom/user.js"></script>
+    <script src="./js/custom/product.js"></script>
+    <script src="./js/custom/cart.js"></script>
+    <script src="./js/custom/main.js"></script>
   </body>
 </html>
