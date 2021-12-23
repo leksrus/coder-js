@@ -7,7 +7,6 @@ const localkeys = {
 };
 
 //avaiable products
-
 function preloadProducts(routePrefix) {
   const products = [];
   products.push(new Product(1, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
@@ -105,30 +104,26 @@ function loadProductsInHome() {
 }
 
 //user visalization in nav bar
-
 function setUpLogedUser(user) {
-  let signUl = document.getElementsByClassName("menu");
-  let signUp = document.getElementsByClassName("button");
-  let signIn = document.getElementsByClassName("button-secondary");
-  let errorElement = document.getElementById("error");
-  if (errorElement) username.parentNode.removeChild(errorElement);
-  signUl[0].removeChild(signUp[0]);
-  signUl[0].removeChild(signIn[0]);
-  signUl[0].insertAdjacentHTML(
-    "beforeend",
-    `
-      <li class="size-18 login">
-        <div class="login">
-          <p>User:&nbsp;</p>
-          <p> ${user.username}</p>
-        </div>
-        
-        <a id="sign-out" class="sign-out" href="#">Sign Out</a>
-      </li>
-  `
-  );
+  const userSection = $("#user-section");
 
-  setToLocalStorage(localkeys.logedUser, user, true);
+  if (userSection.length > 0) {
+    $("#user-section > a.btn.btn-outline-primary, #user-section > a.btn.btn-outline-success").remove();
+
+    userSection.append(
+      `
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <b>Username:</b> ${user.username}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+          <li><a id="sign-out" class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+    </div>
+    `
+    );
+    setToLocalStorage(localkeys.logedUser, user, true);
+  }
 }
 
 //preload user on navigation between pages
@@ -136,23 +131,6 @@ function checkLogedUser() {
   const storageUser = JSON.parse(localStorage.getItem(localkeys.logedUser));
 
   if (storageUser) setUpLogedUser(storageUser);
-}
-
-//log out user
-function logoutUser() {
-  let signUl = document.getElementsByClassName("menu");
-  let login = document.getElementsByClassName("login");
-  signUl[0].removeChild(login[0]);
-  signUl[0].insertAdjacentHTML(
-    "beforeend",
-    `
-    <li class="button"><a href="signin.html">Sign In</a></li>
-    <li class="button-secondary">
-      <a href="signup.html">Sign Up</a>
-    </li>
-  `
-  );
-  localStorage.removeItem(localkeys.logedUser);
 }
 
 //add product list to cart and retain it in localstorage
@@ -232,6 +210,8 @@ function showCart() {
         </div>
           `
         );
+
+        //bind event to remove item from cart
         cartElment.find(`#${product.id}`).click(() => {
           $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
           removeProductFromCart(parseInt(this.event.target.id));
@@ -241,6 +221,7 @@ function showCart() {
   }
 }
 
+//remove items from cart
 function removeProductFromCart(productId) {
   const cart = setUpCartObject();
 
@@ -275,8 +256,7 @@ $(() => {
   loadProducts();
   showItemsCuantity();
   showCart();
-  // checkLogedUser();
-  // showCart();
+  checkLogedUser();
 
   //user login
   $("#signin").click((e) => {
@@ -289,12 +269,7 @@ $(() => {
       const user = registerUsers.find((x) => x.username === userName && x.password === pass);
 
       if (user) {
-        // setUpLogedUser(user);
-        // const logoutBtn = document.getElementById("sign-out");
-        // logoutBtn.addEventListener("click", logoutUser);
-
-        // return;
-
+        setUpLogedUser(user);
         $(location).prop("href", "/");
         return;
       }
@@ -373,6 +348,22 @@ $(() => {
     localStorage.removeItem(localkeys.cartProducts);
     const cartItemElements = $("#cart-list > .align-items-start");
     cartItemElements.remove();
+  });
+
+  //log out user event register
+  $("#sign-out").click(() => {
+    const userSection = $("#user-section");
+
+    if (userSection.length > 0) {
+      $("#user-section > div.dropdown").remove();
+      userSection.append(
+        `
+            <a class="btn btn-outline-primary me-3" href="./pages/signin.html" role="button">Sing in</a>
+            <a class="btn btn-outline-success me-3" href="./pages/signup.html" role="button">Sign up</a>
+          `
+      );
+      localStorage.removeItem(localkeys.logedUser);
+    }
   });
 });
 
