@@ -348,6 +348,7 @@ $(() => {
     localStorage.removeItem(localkeys.cartProducts);
     const cartItemElements = $("#cart-list > .align-items-start");
     cartItemElements.remove();
+    showItemsCuantity();
   });
 
   //log out user event register
