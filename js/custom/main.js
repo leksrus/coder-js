@@ -6,36 +6,6 @@ const localkeys = {
   cartProducts: "cart-products",
 };
 
-//avaiable products
-function preloadProducts(routePrefix) {
-  const products = [];
-  products.push(new Product(1, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
-  products.push(new Product(2, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
-  products.push(new Product(3, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
-  products.push(new Product(4, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
-  products.push(new Product(5, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
-  products.push(new Product(6, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg`));
-  products.push(new Product(7, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
-  products.push(new Product(8, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
-  products.push(new Product(9, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
-  products.push(new Product(10, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
-  products.push(new Product(11, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
-  products.push(new Product(12, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
-  products.push(new Product(13, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg"`));
-  products.push(new Product(14, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
-
-  return products;
-}
-
-//preload existant users for login
-function loadRegisteredUsers() {
-  const users = [];
-  users.push(new User(1, "Leksus", "Aleksey", "Kotylev", "123456"));
-  users.push(new User(2, "Admin", "Admin", "Admin", "Admin123"));
-
-  setToLocalStorage(localkeys.registerUsers, users, false);
-}
-
 //set variables in localstorage
 function setToLocalStorage(key, item, override) {
   const storageItem = JSON.parse(localStorage.getItem(key));
@@ -43,63 +13,82 @@ function setToLocalStorage(key, item, override) {
   if (override || !storageItem) localStorage.setItem(key, JSON.stringify(item));
 }
 
-//load productos for products page
-function loadProducts() {
+//load products
+function loadProducts(productsSection, isForAddCart) {
+  getAllProducts().then((dbProducts) => {
+    setToLocalStorage(localkeys.productStock, dbProducts, true);
+    productsSection.empty();
+    for (const product of dbProducts) {
+      if (isForAddCart) {
+        productsSection.append(
+          `
+              <div class="col-12 col-md-4 col-lg-3">
+                <div class="card text-dark bg-light mb-5 transition">
+                  <img class="card-img-top image-min-height-315" src="..${product.imgSrc}" alt="${product.name}" />
+                  <div class="card-body font-varela">
+                    <h5 class="card-title text-center"><b>${product.name}</b></h5>
+                    <p class="card-text text-center cart-product-price">${product.price}</p>
+                    <p class="card-text">${product.description}</p>
+                    <button id="${product.id}" class="btn-custom">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+              `
+        );
+        productsSection.find(`#${product.id}`).click(() => {
+          addProduct(parseInt(this.event.target.id));
+        });
+      } else {
+        productsSection.append(
+          `
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./${product.imgSrc}" alt="${product.name}" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>${product.name}</b></h5>
+                <p class="card-text text-center cart-product-price">${product.price}</p>
+                <p class="card-text">${product.description}</p>
+              </div>
+            </div>
+          </div>
+          `
+        );
+      }
+    }
+  });
+}
+
+//load product view vith products
+function loadSectionProduct() {
   const productsSection = $("#product-list-section > .row");
 
   if (productsSection.length > 0) {
-    const products = preloadProducts("..");
-    setToLocalStorage(localkeys.productStock, products, true);
     productsSection.empty();
-
-    for (const product of products) {
-      productsSection.append(
-        `
-      <div class="col-12 col-md-4 col-lg-3">
-        <div class="card text-dark bg-light mb-5 transition">
-          <img class="card-img-top image-min-height-315" src="${product.imgSrc}" alt="${product.name}" />
-          <div class="card-body font-varela">
-            <h5 class="card-title text-center"><b>${product.name}</b></h5>
-            <p class="card-text text-center cart-product-price">${product.price}</p>
-            <p class="card-text">${product.desctiption}</p>
-            <button id="${product.id}" class="btn-custom">Add to Cart</button>
-          </div>
-        </div>
+    productsSection.append(
+      `
+      <div class="row justify-content-md-center">
+        <img class="spinner" src="../images/spinner.gif" alt="" />
       </div>
       `
-      );
-      productsSection.find(`#${product.id}`).click(() => {
-        addProduct(parseInt(this.event.target.id));
-      });
-    }
+    );
+    loadProducts(productsSection, true);
   }
 }
 
-//load productos in home
-function loadProductsInHome() {
+//load home view vith products
+function loadSectionHome() {
   const productsSection = $("#product-home-section > .row");
 
   if (productsSection.length > 0) {
-    const products = preloadProducts(".");
-    setToLocalStorage(localkeys.productStock, products, true);
     productsSection.empty();
-
-    for (const product of products) {
-      productsSection.append(
-        `
-      <div class="col-12 col-md-4 col-lg-3">
-        <div class="card text-dark bg-light mb-5 transition">
-          <img class="card-img-top image-min-height-315" src="${product.imgSrc}" alt="${product.name}" />
-          <div class="card-body font-varela">
-            <h5 class="card-title text-center"><b>${product.name}</b></h5>
-            <p class="card-text text-center cart-product-price">${product.price}</p>
-            <p class="card-text">${product.desctiption}</p>
-          </div>
-        </div>
+    productsSection.append(
+      `
+      <div class="row justify-content-md-center">
+        <img class="spinner" src="./images/spinner.gif" alt="" />
       </div>
       `
-      );
-    }
+    );
+    loadProducts(productsSection, false);
   }
 }
 
@@ -114,7 +103,7 @@ function setUpLogedUser(user) {
       `
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <b>Username:</b> ${user.username}
+        <b>Username:</b> ${user.userName}
         </button>
         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
           <li><a id="sign-out" class="dropdown-item" href="#">Sign out</a></li>
@@ -251,9 +240,8 @@ function setUpCartObject() {
 }
 
 $(() => {
-  loadRegisteredUsers();
-  loadProductsInHome();
-  loadProducts();
+  loadSectionHome();
+  loadSectionProduct();
   showItemsCuantity();
   showCart();
   checkLogedUser();
@@ -263,29 +251,27 @@ $(() => {
     e.preventDefault();
     const userName = $("#uname").val();
     const pass = $("#password").val();
-    const registerUsers = JSON.parse(localStorage.getItem(localkeys.registerUsers));
 
-    if (userName && pass && registerUsers) {
-      const user = registerUsers.find((x) => x.username === userName && x.password === pass);
-
-      if (user) {
-        setUpLogedUser(user);
+    const user = new User(undefined, userName, undefined, undefined, pass);
+    findUser(user).then((dbUser) => {
+      if (dbUser) {
+        setUpLogedUser(dbUser);
         $(location).prop("href", "/");
         return;
       }
-    }
 
-    const message = $("#message");
+      const message = $("#message");
 
-    message?.remove();
+      message?.remove();
 
-    $("#password")
-      .parent()
-      .append(
-        `
+      $("#password")
+        .parent()
+        .append(
+          `
       <label id="message" class="form-label font-mukta" style="color: red;" >Error. Username or password is incorrect</label>
       `
-      );
+        );
+    });
   });
 
   //register a user
@@ -302,29 +288,30 @@ $(() => {
 
     if (firstName && lastName && userName && password && repeatedPassword) {
       if (password === repeatedPassword) {
-        const users = JSON.parse(localStorage.getItem(localkeys.registerUsers));
-        const isExist = users.some((x) => x.username === userName);
+        getAllUsers().then((dbUsers) => {
+          const dbUser = dbUsers.find((x) => x.userName === userName);
 
-        if (isExist) {
-          repeatedPasswordElement.parent().append(
-            `
+          if (dbUser) {
+            repeatedPasswordElement.parent().append(
+              `
           <label id="message" class="form-label font-mukta" style="color: red;" >Error. Username already exist</label>
           `
-          );
+            );
 
+            return;
+          }
+          const lastUserId = Math.max(...dbUsers.map((u) => u.id));
+          const user = new User(lastUserId + 1, userName, firstName, lastName, password);
+
+          createUser(user).then(() => {
+            repeatedPasswordElement.parent().append(
+              `
+              <label id="message" class="form-label font-mukta" style="color: green;" >Register successful</label>
+              `
+            );
+          });
           return;
-        }
-
-        const lastUserId = Math.max(...users.map((u) => u.id));
-        const user = new User(lastUserId + 1, userName, firstName, lastName, password);
-        users.push(user);
-        setToLocalStorage(localkeys.registerUsers, users, true);
-
-        repeatedPasswordElement.parent().append(
-          `
-        <label id="message" class="form-label font-mukta" style="color: green;" >Register successful</label>
-        `
-        );
+        });
 
         return;
       }
