@@ -127,6 +127,10 @@
   height: 120px;
 }
 
+.hide-element {
+  display: none;
+}
+
 .footer-container {
   background-color: darkslategray;
 }

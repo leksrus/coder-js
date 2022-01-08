@@ -134,6 +134,10 @@ function addProduct(productId) {
       cart.addProduct(product);
       setToLocalStorage(localkeys.cartProducts, cart.getProducts(), true);
       showItemsCuantity();
+      const cartAlertElement = $("#cart-alert");
+      cartAlertElement.fadeIn(1000, () => {
+        cartAlertElement.fadeOut("slow");
+      });
     }
   }
 }
