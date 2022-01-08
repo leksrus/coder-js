@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="This is ecommerce web page for selling personal computer staff for a best price" />
+    <meta name="keywords" content="CPU, GPU, BUY, MEMORY, PC ECOMMERCE, BEST PRICE, SSD, COOLER, TECHNO, MARKET MOUSE, KEYBOARD, LOW PRICE" />
     <link rel="icon" type="image/png" href="../images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,7 +40,7 @@
           <div class="collapse navbar-collapse size-20" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 menu">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                <a class="nav-link" aria-current="page" href="../index.html">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="./products.html">Products</a>
@@ -286,6 +288,90 @@
           <div class="col-12">
             <div class="d-flex flex-row-reverse">
               <a class="btn btn-success btn-lg" href="#" role="button">Checkout</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- modal checkout -->
+      <section class="container">
+        <div class="row">
+          <div class="modal fade" id="checkout" tabindex="-1" aria-labelledby="checkout" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Bill details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-sm table-striped">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th class="text-center" scope="col">Name</th>
+                        <th class="text-center" scope="col">Quantity</th>
+                        <th class="text-center" scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Cpu Intel I5</td>
+                        <td class="text-center">1</td>
+                        <td class="text-end">$190.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Mouse Redrgon</td>
+                        <td class="text-center">1</td>
+                        <td class="text-end">$19.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Memory HyperX</td>
+                        <td class="text-center">2</td>
+                        <td class="text-end">$501.98</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">4</th>
+                        <td>Keyboard Redragon K551</td>
+                        <td class="text-center">1</td>
+                        <td class="text-end">$25.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">5</th>
+                        <td>MSI RTX 3080TI</td>
+                        <td class="text-center">1</td>
+                        <td class="text-end">$550.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">6</th>
+                        <td>SSD Firecuda</td>
+                        <td class="text-center">1</td>
+                        <td class="text-end">$250.99</td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td class="text-end" colspan="2"><b>Total:</b></td>
+                        <td class="text-end"><b>$1540.93</b></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td class="text-end" colspan="2"><b>Discount:</b></td>
+                        <td class="text-end"><b>-$150.00</b></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"></th>
+                        <td class="text-end" colspan="2"><b>Total to pay:</b></td>
+                        <td class="text-end"><b>$1390.93</b></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-outline-success">Checkout</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="This is ecommerce web page for selling personal computer staff for a best price" />
+    <meta name="keywords" content="CPU, GPU, BUY, MEMORY, PC ECOMMERCE, BEST PRICE, SSD, COOLER, TECHNO, MARKET MOUSE, KEYBOARD, LOW PRICE" />
     <link rel="icon" type="image/png" href="../images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,10 +40,10 @@
           <div class="collapse navbar-collapse size-20" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 menu">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                <a class="nav-link" aria-current="page" href="../index.html">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./products.html">Products</a>
+                <a class="nav-link active" href="./products.html">Products</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="./about.html">About</a>
@@ -75,9 +77,70 @@
           </div>
         </div>
       </section>
+      <!-- filter section -->
+      <section class="container">
+        <div class="row">
+          <div class="col-12 col-md-8 col-lg-8">
+            <ul class="nav nav-pills justify-content-end">
+              <li class="nav-item dropdown me-3">
+                <a class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-square" viewBox="0 0 16 16">
+                    <path
+                      d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+                    />
+                    <path
+                      d="M6 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
+                    />
+                  </svg>
+                  Products Filter
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="#">CPUs</a></li>
+                  <li><a class="dropdown-item" href="#">Keyboards</a></li>
+                  <li><a class="dropdown-item" href="#">Mouses</a></li>
+                  <li><a class="dropdown-item" href="#">SSDs</a></li>
+                  <li><a class="dropdown-item" href="#">Video Cards</a></li>
+                  <li><a class="dropdown-item" href="#">RAM Mermories</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="#">Clear all</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sort-down-alt" viewBox="0 0 16 16">
+                    <path
+                      d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"
+                    />
+                  </svg>
+                  Sort by</a
+                >
+                <ul class="dropdown-menu dropdown-menu-dark">
+                  <li><a class="dropdown-item" href="#">Low to hight price</a></li>
+                  <li><a class="dropdown-item" href="#">Hight to low price</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="col-12 col-md-4 col-lg-4">
+            <form class="d-flex mt-mobile-20">
+              <div class="input-group w-100">
+                <span class="input-group-text" id="search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                    ></path>
+                  </svg>
+                </span>
+                <input type="search" class="form-control me-2" placeholder="Search" aria-label="Search" aria-describedby="search" />
+              </div>
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </section>
       <!-- lista de productos -->
       <section id="product-list-section" class="container">
-        <div class="row align-items-start">
+        <div class="row align-items-start mt-5">
           <div class="col-12 col-md-4 col-lg-3">
             <div class="card text-dark bg-light mb-5 transition">
               <img class="card-img-top image-min-height-315" src="../images/products/cpu-intel-i5.jpg" alt="Cpu Intel I5" />
@@ -182,13 +245,7 @@
     </main>
     <!-- footer con redes y metodo de contacto -->
     <footer
-      class="
-        d-flex
-        align-content-center
-        justify-content-center justify-content-sm-center justify-content-md-between justify-content-lg-between
-        footer-container
-        mt-5
-      "
+      class="d-flex align-content-center justify-content-center justify-content-sm-center justify-content-md-between justify-content-lg-between footer-container mt-5"
     >
       <div class="m-5">
         <a href="https://instagram.com" target="_blank">
