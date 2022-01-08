@@ -179,12 +179,12 @@ function showCart() {
                 <div class="col-9 col-md-7 col-lg-7">
                   <div class="card-body font-varela">
                     <h5 class="card-title"><b>${product.name}</b></h5>
-                    <p class="card-text">Some text Some text Some texts Some text Some text Some text.</p>
+                    <p class="card-text">${product.description}</p>
                     <p class="card-text cart-product-price">${product.price}</p>
                     <div class="d-flex align-items-center justify-content-center">
-                      <div class="btn-cart">+</div>
+                      <div id="plus-${product.id}" class="btn-cart">+</div>
                       <div class="count">${count}</div>
-                      <div class="btn-cart">-</div>
+                      <div id="minus-${product.id}" class="btn-cart">-</div>
                     </div>
                   </div>
                 </div>
@@ -205,13 +205,41 @@ function showCart() {
         );
 
         //bind event to remove item from cart
-        cartElment.find(`#${product.id}`).click(() => {
+        cartElment.find(`#remove-${product.id}`).click(() => {
           $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
           removeProductFromCart(parseInt(this.event.target.id));
+        });
+
+        //bind event to add item from cart by plus button
+        cartElment.find(`#plus-${product.id}`).click(() => {
+          const productId = parseInt(this.event.target.id.split("-")[1]);
+          const prodCount = parseInt(productCount(productId));
+          $(`#${this.event.target.id}`)
+            .next(".count")
+            .text(`${prodCount + 1}`);
+          addProduct(productId);
+        });
+
+        //bind event to remove item from cart by minus button
+        cartElment.find(`#minus-${product.id}`).click(() => {
+          const productId = parseInt(this.event.target.id.split("-")[1]);
+          const prodCount = parseInt(productCount(productId));
+          $(`#${this.event.target.id}`)
+            .prev(".count")
+            .text(`${prodCount - 1}`);
+          removeProductFromCart(productId);
+          if (prodCount - 1 === 0) $("#cart-list").find(`#${productId}`).closest(".row.align-items-start").remove();
         });
       }
     }
   }
+}
+
+// get product cout by specific Id
+function productCount(productId) {
+  const cart = setUpCartObject();
+
+  return cart.getProducts().filter((x) => x.id === productId).length;
 }
 
 //remove items from cart
