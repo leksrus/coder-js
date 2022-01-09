@@ -42,7 +42,7 @@ class Cart {
           id: value.id,
           name: value.name,
           description: value.description,
-          price: value.price,
+          price: 0,
           imgSrc: value.imgSrc,
         };
         result.push(res[value.id]);

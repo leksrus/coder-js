@@ -1,0 +1,39 @@
+@media all and (min-width: 300px) and (max-device-width: 650px) {
+  $size-100px: 100px;
+
+  $fontSizesmobile: (
+    "size-20": small,
+    "size-35": medium,
+  );
+
+  @mixin height-set-mobile($height-px) {
+    min-height: $height-px;
+    max-height: $height-px;
+  }
+
+  .logo h1 {
+    font-size: 30px;
+  }
+
+  .page-title h2 {
+    font-size: 25px;
+  }
+
+  @each $name, $font in $fontSizesmobile {
+    .#{$name} {
+      font-size: $font;
+    }
+  }
+
+  .cart-image-min-height-150 {
+    @include height-set($size-100px);
+  }
+
+  #carouselExampleIndicators {
+    display: none;
+  }
+
+  .mt-mobile-20 {
+    margin-top: 20px;
+  }
+}
