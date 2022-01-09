@@ -1,0 +1,44 @@
+@import "body", "footer", "header", "media-query";
+
+$fontSizes: (
+  "size-20": 20px,
+  "size-23": 23px,
+  "size-35": 35px,
+);
+
+$fonts: (
+  "font-share-tech-mono": (
+    "Share Tech Mono",
+    monospace,
+  ),
+  "font-mukta": (
+    "Mukta",
+    sans-serif,
+  ),
+  "font-baloo2": (
+    "Baloo 2",
+    cursive,
+  ),
+  "font-varela": (
+    "Varela Round",
+    sans-serif,
+  ),
+);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@each $name, $font in $fonts {
+  .#{$name} {
+    font-size: $font;
+  }
+}
+
+@each $name, $size in $fontSizes {
+  .#{$name} {
+    font-size: $size;
+  }
+}

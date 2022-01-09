@@ -6,36 +6,6 @@ const localkeys = {
   cartProducts: "cart-products",
 };
 
-//avaiable products
-function preloadProducts(routePrefix) {
-  const products = [];
-  products.push(new Product(1, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
-  products.push(new Product(2, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
-  products.push(new Product(3, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
-  products.push(new Product(4, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
-  products.push(new Product(5, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
-  products.push(new Product(6, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg`));
-  products.push(new Product(7, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
-  products.push(new Product(8, "Cpu Intel I5", "Some text..", 190.99, `${routePrefix}/images/products/cpu-intel-i5.jpg`));
-  products.push(new Product(9, "Keyboard HyperX", "Some text..", 19.99, `${routePrefix}/images/products/mouse-redrgon-m711.jpg`));
-  products.push(new Product(10, "Memory HyperX", "Some text..", 250.99, `${routePrefix}/images/products/memory-hyperx.jpg`));
-  products.push(new Product(11, "Mouse Redragon M610", "Some text..", 25.99, `${routePrefix}/images/products/mouse-redrgon-m610.jpg`));
-  products.push(new Product(12, "Keyboard Redragon K551", "Some text..", 27.99, `${routePrefix}/images/products/keyboard-redragon-k551.jfif`));
-  products.push(new Product(13, "MSI RTX 3080TI", "Some text..", 550.99, `${routePrefix}/images/products/msi-rtx-3080ti.jpg"`));
-  products.push(new Product(14, "SSD Firecuda", "Some text..", 240.99, `${routePrefix}/images/products/ssd-firecuda.jpg`));
-
-  return products;
-}
-
-//preload existant users for login
-function loadRegisteredUsers() {
-  const users = [];
-  users.push(new User(1, "Leksus", "Aleksey", "Kotylev", "123456"));
-  users.push(new User(2, "Admin", "Admin", "Admin", "Admin123"));
-
-  setToLocalStorage(localkeys.registerUsers, users, false);
-}
-
 //set variables in localstorage
 function setToLocalStorage(key, item, override) {
   const storageItem = JSON.parse(localStorage.getItem(key));
@@ -43,63 +13,82 @@ function setToLocalStorage(key, item, override) {
   if (override || !storageItem) localStorage.setItem(key, JSON.stringify(item));
 }
 
-//load productos for products page
-function loadProducts() {
+//load products
+function loadProducts(productsSection, isForAddCart) {
+  getAllProducts().then((dbProducts) => {
+    setToLocalStorage(localkeys.productStock, dbProducts, true);
+    productsSection.empty();
+    for (const product of dbProducts) {
+      if (isForAddCart) {
+        productsSection.append(
+          `
+              <div class="col-12 col-md-4 col-lg-3">
+                <div class="card text-dark bg-light mb-5 transition">
+                  <img class="card-img-top image-min-height-315" src="..${product.imgSrc}" alt="${product.name}" />
+                  <div class="card-body font-varela">
+                    <h5 class="card-title text-center"><b>${product.name}</b></h5>
+                    <p class="card-text text-center cart-product-price">${product.price}</p>
+                    <p class="card-text">${product.description}</p>
+                    <button id="${product.id}" class="btn-custom">Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+              `
+        );
+        productsSection.find(`#${product.id}`).click(() => {
+          addProduct(parseInt(this.event.target.id));
+        });
+      } else {
+        productsSection.append(
+          `
+          <div class="col-12 col-md-4 col-lg-3">
+            <div class="card text-dark bg-light mb-5 transition">
+              <img class="card-img-top image-min-height-315" src="./${product.imgSrc}" alt="${product.name}" />
+              <div class="card-body font-varela">
+                <h5 class="card-title text-center"><b>${product.name}</b></h5>
+                <p class="card-text text-center cart-product-price">${product.price}</p>
+                <p class="card-text">${product.description}</p>
+              </div>
+            </div>
+          </div>
+          `
+        );
+      }
+    }
+  });
+}
+
+//load product view vith products
+function loadSectionProduct() {
   const productsSection = $("#product-list-section > .row");
 
   if (productsSection.length > 0) {
-    const products = preloadProducts("..");
-    setToLocalStorage(localkeys.productStock, products, true);
     productsSection.empty();
-
-    for (const product of products) {
-      productsSection.append(
-        `
-      <div class="col-12 col-md-4 col-lg-3">
-        <div class="card text-dark bg-light mb-5 transition">
-          <img class="card-img-top image-min-height-315" src="${product.imgSrc}" alt="${product.name}" />
-          <div class="card-body font-varela">
-            <h5 class="card-title text-center"><b>${product.name}</b></h5>
-            <p class="card-text text-center cart-product-price">${product.price}</p>
-            <p class="card-text">${product.desctiption}</p>
-            <button id="${product.id}" class="btn-custom">Add to Cart</button>
-          </div>
-        </div>
+    productsSection.append(
+      `
+      <div class="row justify-content-md-center">
+        <img class="spinner" src="../images/spinner.gif" alt="" />
       </div>
       `
-      );
-      productsSection.find(`#${product.id}`).click(() => {
-        addProduct(parseInt(this.event.target.id));
-      });
-    }
+    );
+    loadProducts(productsSection, true);
   }
 }
 
-//load productos in home
-function loadProductsInHome() {
+//load home view vith products
+function loadSectionHome() {
   const productsSection = $("#product-home-section > .row");
 
   if (productsSection.length > 0) {
-    const products = preloadProducts(".");
-    setToLocalStorage(localkeys.productStock, products, true);
     productsSection.empty();
-
-    for (const product of products) {
-      productsSection.append(
-        `
-      <div class="col-12 col-md-4 col-lg-3">
-        <div class="card text-dark bg-light mb-5 transition">
-          <img class="card-img-top image-min-height-315" src="${product.imgSrc}" alt="${product.name}" />
-          <div class="card-body font-varela">
-            <h5 class="card-title text-center"><b>${product.name}</b></h5>
-            <p class="card-text text-center cart-product-price">${product.price}</p>
-            <p class="card-text">${product.desctiption}</p>
-          </div>
-        </div>
+    productsSection.append(
+      `
+      <div class="row justify-content-md-center">
+        <img class="spinner" src="./images/spinner.gif" alt="" />
       </div>
       `
-      );
-    }
+    );
+    loadProducts(productsSection, false);
   }
 }
 
@@ -114,7 +103,7 @@ function setUpLogedUser(user) {
       `
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <b>Username:</b> ${user.username}
+        <b>Username:</b> ${user.userName}
         </button>
         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
           <li><a id="sign-out" class="dropdown-item" href="#">Sign out</a></li>
@@ -145,6 +134,10 @@ function addProduct(productId) {
       cart.addProduct(product);
       setToLocalStorage(localkeys.cartProducts, cart.getProducts(), true);
       showItemsCuantity();
+      const cartAlertElement = $("#cart-alert");
+      cartAlertElement.fadeIn(1000, () => {
+        cartAlertElement.fadeOut("slow");
+      });
     }
   }
 }
@@ -165,6 +158,16 @@ function showCart() {
 
   if (cartElment.length > 0) {
     const cartItemElements = $("#cart-list > .align-items-start");
+    $("#checkout-btn").click((e) => {
+      e.preventDefault();
+      checkOut();
+    });
+
+    $("#finish-order").click((e) => {
+      e.preventDefault();
+      closeOrder();
+    });
+
     cartItemElements.remove();
     const hrElement = $("#cart-list > hr").first().next();
     const cart = setUpCartObject();
@@ -186,12 +189,12 @@ function showCart() {
                 <div class="col-9 col-md-7 col-lg-7">
                   <div class="card-body font-varela">
                     <h5 class="card-title"><b>${product.name}</b></h5>
-                    <p class="card-text">Some text Some text Some texts Some text Some text Some text.</p>
-                    <p class="card-text cart-product-price">${product.price}</p>
+                    <p class="card-text">${product.description}</p>
+                    <p id="price-${product.id}"  class="card-text cart-product-price">$${product.price}</p>
                     <div class="d-flex align-items-center justify-content-center">
-                      <div class="btn-cart">+</div>
+                      <div id="plus-${product.id}" class="btn-cart">+</div>
                       <div class="count">${count}</div>
-                      <div class="btn-cart">-</div>
+                      <div id="minus-${product.id}" class="btn-cart">-</div>
                     </div>
                   </div>
                 </div>
@@ -211,14 +214,55 @@ function showCart() {
           `
         );
 
-        //bind event to remove item from cart
-        cartElment.find(`#${product.id}`).click(() => {
-          $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
-          removeProductFromCart(parseInt(this.event.target.id));
-        });
+        //bind event cart
+        bindCartEvents(product, cartElment);
       }
     }
   }
+}
+
+function bindCartEvents(product, cartElment) {
+  //bind event to remove item from cart
+  cartElment.find(`#remove-${product.id}`).click(() => {
+    $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
+    removeProductFromCart(parseInt(this.event.target.id));
+  });
+
+  //bind event to add item from cart by plus button
+  cartElment.find(`#plus-${product.id}`).click(() => {
+    const productId = parseInt(this.event.target.id.split("-")[1]);
+    const prodCount = parseInt(productCount(productId));
+    $(`#${this.event.target.id}`)
+      .next(".count")
+      .text(`${prodCount + 1}`);
+    addProduct(productId);
+    $(`#price-${productId}`).text("$" + productTotalPice(productId));
+  });
+
+  //bind event to remove item from cart by minus button
+  cartElment.find(`#minus-${product.id}`).click(() => {
+    const productId = parseInt(this.event.target.id.split("-")[1]);
+    const prodCount = parseInt(productCount(productId));
+    $(`#${this.event.target.id}`)
+      .prev(".count")
+      .text(`${prodCount - 1}`);
+    removeProductFromCart(productId);
+    $(`#price-${productId}`).text("$" + productTotalPice(productId));
+    if (prodCount - 1 === 0) $("#cart-list").find(`#${productId}`).closest(".row.align-items-start").remove();
+  });
+}
+
+// get product cout by specific Id
+function productCount(productId) {
+  const cart = setUpCartObject();
+
+  return cart.getProducts().filter((x) => x.id === productId).length;
+}
+
+function productTotalPice(productId) {
+  const cart = setUpCartObject();
+
+  return cart.showCartItems()?.find((x) => x.id == productId)?.price;
 }
 
 //remove items from cart
@@ -250,10 +294,108 @@ function setUpCartObject() {
   return cart;
 }
 
+// checkout logic
+function checkOut() {
+  const cart = setUpCartObject();
+
+  if (cart.getProducts().length > 0) {
+    const cartModalElement = $("#cart-modal");
+    cartModalElement.empty();
+    cartModalElement.append(`
+        <table class="table table-sm table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th class="text-center" scope="col">Name</th>
+              <th class="text-center" scope="col">Quantity</th>
+              <th class="text-center" scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+    `);
+
+    let indexTable = 0;
+    for (const product of cart.showCartItems()) {
+      indexTable += 1;
+      const count = productCount(product.id);
+      cartModalElement.find("tbody").append(`
+        <tr>
+          <th scope="row">${indexTable}</th>
+          <td>${product.name}</td>
+          <td class="text-center">${count}</td>
+          <td class="text-end">${product.price}</td>
+        </tr>
+      `);
+    }
+
+    const total = cart.getTotalProductsPrice();
+    const discount = getDiscount(cart);
+    const totalToPay = total - discount;
+
+    cartModalElement.find("tbody").append(`
+      <tr>
+        <th scope="row"></th>
+        <td class="text-end" colspan="2"><b>Total:</b></td>
+        <td class="text-end"><b>$${total}</b></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td class="text-end" colspan="2"><b>Discount:</b></td>
+        <td class="text-end"><b>-$${discount}</b></td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td class="text-end" colspan="2"><b>Total to pay:</b></td>
+        <td class="text-end"><b>$${totalToPay}</b></td>
+      </tr>
+  `);
+  }
+}
+
+// checkout logic
+function closeOrder() {
+  const finishOrderElement = $("#finish-order");
+
+  if (finishOrderElement.length > 0) {
+    const cart = setUpCartObject();
+    $.post("https://jsonplaceholder.typicode.com/posts", JSON.stringify(cart.getProducts()), function (res, state) {
+      if (state == "success") {
+        $("#checkout").modal("toggle");
+        clearCartOrder();
+        const cartModalElement = $("#cart-modal");
+        cartModalElement.empty();
+      }
+    });
+  }
+}
+
+// get discount
+function getDiscount(cart) {
+  let discount = 0.0;
+  let total = 0.0;
+  const products = cart.getProducts();
+
+  for (const product of products) total += product.price;
+
+  if (total > 1000) discount += 50.25;
+
+  if (total > 10000) discount += 99.99;
+
+  return discount;
+}
+
+function clearCartOrder() {
+  localStorage.removeItem(localkeys.cartProducts);
+  const cartItemElements = $("#cart-list > .align-items-start");
+  cartItemElements.remove();
+  showItemsCuantity();
+}
+
 $(() => {
-  loadRegisteredUsers();
-  loadProductsInHome();
-  loadProducts();
+  loadSectionHome();
+  loadSectionProduct();
   showItemsCuantity();
   showCart();
   checkLogedUser();
@@ -263,29 +405,27 @@ $(() => {
     e.preventDefault();
     const userName = $("#uname").val();
     const pass = $("#password").val();
-    const registerUsers = JSON.parse(localStorage.getItem(localkeys.registerUsers));
 
-    if (userName && pass && registerUsers) {
-      const user = registerUsers.find((x) => x.username === userName && x.password === pass);
-
-      if (user) {
-        setUpLogedUser(user);
+    const user = new User(undefined, userName, undefined, undefined, pass);
+    findUser(user).then((dbUser) => {
+      if (dbUser) {
+        setUpLogedUser(dbUser);
         $(location).prop("href", "/");
         return;
       }
-    }
 
-    const message = $("#message");
+      const message = $("#message");
 
-    message?.remove();
+      message?.remove();
 
-    $("#password")
-      .parent()
-      .append(
-        `
+      $("#password")
+        .parent()
+        .append(
+          `
       <label id="message" class="form-label font-mukta" style="color: red;" >Error. Username or password is incorrect</label>
       `
-      );
+        );
+    });
   });
 
   //register a user
@@ -302,29 +442,30 @@ $(() => {
 
     if (firstName && lastName && userName && password && repeatedPassword) {
       if (password === repeatedPassword) {
-        const users = JSON.parse(localStorage.getItem(localkeys.registerUsers));
-        const isExist = users.some((x) => x.username === userName);
+        getAllUsers().then((dbUsers) => {
+          const dbUser = dbUsers.find((x) => x.userName === userName);
 
-        if (isExist) {
-          repeatedPasswordElement.parent().append(
-            `
+          if (dbUser) {
+            repeatedPasswordElement.parent().append(
+              `
           <label id="message" class="form-label font-mukta" style="color: red;" >Error. Username already exist</label>
           `
-          );
+            );
 
+            return;
+          }
+          const lastUserId = Math.max(...dbUsers.map((u) => u.id));
+          const user = new User(lastUserId + 1, userName, firstName, lastName, password);
+
+          createUser(user).then(() => {
+            repeatedPasswordElement.parent().append(
+              `
+              <label id="message" class="form-label font-mukta" style="color: green;" >Register successful</label>
+              `
+            );
+          });
           return;
-        }
-
-        const lastUserId = Math.max(...users.map((u) => u.id));
-        const user = new User(lastUserId + 1, userName, firstName, lastName, password);
-        users.push(user);
-        setToLocalStorage(localkeys.registerUsers, users, true);
-
-        repeatedPasswordElement.parent().append(
-          `
-        <label id="message" class="form-label font-mukta" style="color: green;" >Register successful</label>
-        `
-        );
+        });
 
         return;
       }
@@ -345,10 +486,7 @@ $(() => {
   });
 
   $("#remove-all-item").click(() => {
-    localStorage.removeItem(localkeys.cartProducts);
-    const cartItemElements = $("#cart-list > .align-items-start");
-    cartItemElements.remove();
-    showItemsCuantity();
+    clearCartOrder();
   });
 
   //log out user event register
@@ -367,58 +505,3 @@ $(() => {
     }
   });
 });
-
-// function calculateDispatchPrice(zipCode) {
-//   let dipatchPrice = 0.0;
-//   switch (true) {
-//     case zipCode < 1000:
-//       dipatchPrice = 100.0;
-//       break;
-
-//     case zipCode >= 1000 && zipCode <= 2000:
-//       dipatchPrice = 200.0;
-//       break;
-
-//     case zipCode > 2000:
-//       dipatchPrice = 300.0;
-//       break;
-
-//     default:
-//       break;
-//   }
-
-//   return dipatchPrice;
-// }
-
-// function getDiscount(cart) {
-//   let discount = 0.0;
-//   const products = cart.getProducts();
-
-//   for (const product of products) {
-//     if (product.price > 1000) discount += 50.25;
-
-//     if (product.price > 10000) discount += 99.99;
-//   }
-
-//   return discount;
-// }
-
-// function checkOut(cart, zipCode) {
-//   const products = cart.getProducts();
-//   const productPrice = cart.getTotalProductsPrice();
-//   const dispatchCost = calculateDispatchPrice(zipCode);
-//   const discount = getDiscount(cart);
-//   const totalToPay = productPrice + dispatchCost - discount;
-
-//   let productsName = "";
-//   cart.showCartItems().forEach((element, index) => {
-//     if (index < products.length - 1) productsName += element.name + ", ";
-//     else productsName += element.name;
-//   });
-
-//   console.log(cart.showCartItems());
-
-//   alert(
-//     `Estimado ${firstname} ${lastname}. Total a pagar ${totalToPay} con estos productos: ${productsName}`
-//   );
-// }
