@@ -287,7 +287,7 @@
         <div class="row">
           <div class="col-12">
             <div class="d-flex flex-row-reverse">
-              <a class="btn btn-success btn-lg" href="#" role="button">Checkout</a>
+              <a id="checkout-btn" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#checkout" href="#" role="button">Checkout</a>
             </div>
           </div>
         </div>
@@ -302,7 +302,7 @@
                   <h5 class="modal-title">Bill details</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div id="cart-modal" class="modal-body">
                   <table class="table table-sm table-striped">
                     <thead class="table-dark">
                       <tr>
@@ -369,7 +369,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-outline-success">Checkout</button>
+                  <button id="finish-order" type="button" class="btn btn-outline-success">Checkout</button>
                 </div>
               </div>
             </div>
