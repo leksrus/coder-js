@@ -14,52 +14,72 @@ function setToLocalStorage(key, item, override) {
 }
 
 //load products
-function loadProducts(productsSection, isForAddCart) {
+function loadAllProducts(productsSection, isForAddCart) {
   getAllProducts().then((dbProducts) => {
     setToLocalStorage(localkeys.productStock, dbProducts, true);
     productsSection.empty();
-    for (const product of dbProducts) {
-      if (isForAddCart) {
-        productsSection.append(
-          `
-              <div class="col-12 col-md-4 col-lg-3">
-                <div class="card text-dark bg-light mb-5 transition">
-                  <img class="card-img-top image-min-height-315" src="..${product.imgSrc}" alt="${product.name}" />
-                  <div class="card-body font-varela">
-                    <h5 class="card-title text-center"><b>${product.name}</b></h5>
-                    <p class="card-text text-center cart-product-price">${product.price}</p>
-                    <p class="card-text">${product.description}</p>
-                    <button id="${product.id}" class="btn-custom">Add to Cart</button>
-                  </div>
-                </div>
-              </div>
-              `
-        );
-        productsSection.find(`#${product.id}`).click(() => {
-          addProduct(parseInt(this.event.target.id));
-        });
-      } else {
-        productsSection.append(
-          `
-          <div class="col-12 col-md-4 col-lg-3">
-            <div class="card text-dark bg-light mb-5 transition">
-              <img class="card-img-top image-min-height-315" src="./${product.imgSrc}" alt="${product.name}" />
-              <div class="card-body font-varela">
-                <h5 class="card-title text-center"><b>${product.name}</b></h5>
-                <p class="card-text text-center cart-product-price">${product.price}</p>
-                <p class="card-text">${product.description}</p>
-              </div>
-            </div>
-          </div>
-          `
-        );
-      }
-    }
+    loadProductHtml(dbProducts, productsSection, isForAddCart);
   });
 }
 
-//load product view vith products
-function loadSectionProduct() {
+//load fitered products
+
+function loadProductsWithCategoryFilter(category, productsSection) {
+  filterProductsByCategory(category).then((dbProducts) => {
+    loadProductHtml(dbProducts, productsSection, true);
+  });
+}
+
+function loadProductsWithNameFilter(name, productsSection) {
+  filterProductsByName(name).then((dbProducts) => {
+    loadProductHtml(dbProducts, productsSection, true);
+  });
+}
+
+//adding html in products
+function loadProductHtml(products, productsSection, isForAddCart) {
+  productsSection.empty();
+  for (const product of products) {
+    if (isForAddCart) {
+      productsSection.append(
+        `
+            <div class="col-12 col-md-4 col-lg-3">
+              <div class="card text-dark bg-light mb-5 transition">
+                <img class="card-img-top image-min-height-315" src="..${product.imgSrc}" alt="${product.name}" />
+                <div class="card-body font-varela">
+                  <h5 class="card-title text-center"><b>${product.name}</b></h5>
+                  <p class="card-text text-center cart-product-price">${product.price}</p>
+                  <p class="card-text">${product.description}</p>
+                  <button id="${product.id}" class="btn-custom">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            `
+      );
+      productsSection.find(`#${product.id}`).click(() => {
+        addProductToCart(parseInt(this.event.target.id));
+      });
+    } else {
+      productsSection.append(
+        `
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card text-dark bg-light mb-5 transition">
+            <img class="card-img-top image-min-height-315" src="./${product.imgSrc}" alt="${product.name}" />
+            <div class="card-body font-varela">
+              <h5 class="card-title text-center"><b>${product.name}</b></h5>
+              <p class="card-text text-center cart-product-price">${product.price}</p>
+              <p class="card-text">${product.description}</p>
+            </div>
+          </div>
+        </div>
+        `
+      );
+    }
+  }
+}
+
+//load product view vith products or apply filter
+function loadSectionProduct(filterType, filter) {
   const productsSection = $("#product-list-section > .row");
 
   if (productsSection.length > 0) {
@@ -71,7 +91,20 @@ function loadSectionProduct() {
       </div>
       `
     );
-    loadProducts(productsSection, true);
+
+    switch (filterType) {
+      case "category":
+        loadProductsWithCategoryFilter(filter, productsSection);
+        break;
+
+      case "name":
+        loadProductsWithNameFilter(filter, productsSection);
+        break;
+
+      default:
+        loadAllProducts(productsSection, true);
+        break;
+    }
   }
 }
 
@@ -88,7 +121,7 @@ function loadSectionHome() {
       </div>
       `
     );
-    loadProducts(productsSection, false);
+    loadAllProducts(productsSection, false);
   }
 }
 
@@ -123,7 +156,7 @@ function checkLogedUser() {
 }
 
 //add product list to cart and retain it in localstorage
-function addProduct(productId) {
+function addProductToCart(productId) {
   const cart = setUpCartObject();
   const stockProducts = JSON.parse(localStorage.getItem(localkeys.productStock));
 
@@ -235,7 +268,7 @@ function bindCartEvents(product, cartElment) {
     $(`#${this.event.target.id}`)
       .next(".count")
       .text(`${prodCount + 1}`);
-    addProduct(productId);
+    addProductToCart(productId);
     $(`#price-${productId}`).text("$" + productTotalPice(productId));
   });
 
@@ -503,5 +536,38 @@ $(() => {
       );
       localStorage.removeItem(localkeys.logedUser);
     }
+  });
+
+  $("#cpu").click(() => {
+    loadSectionProduct("category", "cpu");
+  });
+
+  $("#keyboard").click(() => {
+    loadSectionProduct("category", "keyboard");
+  });
+
+  $("#mouse").click(() => {
+    loadSectionProduct("category", "mouse");
+  });
+
+  $("#ssd").click(() => {
+    loadSectionProduct("category", "ssd");
+  });
+
+  $("#gpu").click(() => {
+    loadSectionProduct("category", "gpu");
+  });
+
+  $("#memory").click(() => {
+    loadSectionProduct("category", "memory");
+  });
+
+  $("#clear").click(() => {
+    loadSectionProduct();
+  });
+
+  $("#button-search").click(() => {
+    const inputCaption = $("#input-search").val();
+    loadSectionProduct("name", inputCaption.toLowerCase().charAt(0).toUpperCase() + inputCaption.slice(1));
   });
 });

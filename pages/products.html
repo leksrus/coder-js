@@ -95,14 +95,14 @@
                   Products Filter
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="#">CPUs</a></li>
-                  <li><a class="dropdown-item" href="#">Keyboards</a></li>
-                  <li><a class="dropdown-item" href="#">Mouses</a></li>
-                  <li><a class="dropdown-item" href="#">SSDs</a></li>
-                  <li><a class="dropdown-item" href="#">Video Cards</a></li>
-                  <li><a class="dropdown-item" href="#">RAM Mermories</a></li>
+                  <li><a id="cpu" class="dropdown-item" href="#">CPUs</a></li>
+                  <li><a id="keyboard" class="dropdown-item" href="#">Keyboards</a></li>
+                  <li><a id="mouse" class="dropdown-item" href="#">Mouses</a></li>
+                  <li><a id="ssd" class="dropdown-item" href="#">SSDs</a></li>
+                  <li><a id="gpu" class="dropdown-item" href="#">Video Cards</a></li>
+                  <li><a id="memory" class="dropdown-item" href="#">RAM Mermories</a></li>
                   <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="#">Clear all</a></li>
+                  <li><a id="clear" class="dropdown-item" href="#">Clear all</a></li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
@@ -131,9 +131,9 @@
                     ></path>
                   </svg>
                 </span>
-                <input type="search" class="form-control me-2" placeholder="Search" aria-label="Search" aria-describedby="search" />
+                <input id="input-search" type="search" class="form-control me-2" placeholder="Search" aria-label="Search" aria-describedby="search" />
               </div>
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button id="button-search" class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
         </div>
