@@ -122,6 +122,10 @@
   max-height: 600px;
 }
 
+.hide-element {
+  display: none;
+}
+
 .footer-img {
   height: 25px;
   width: 25px;

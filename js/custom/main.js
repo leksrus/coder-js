@@ -87,6 +87,7 @@ function loadProductHtml(products, productsSection, isForAddCart) {
 //load product view vith products or apply filter
 function loadSectionProduct(filterType, filter, orderByCriteria) {
   const productsSection = $("#product-list-section > .row");
+  setDolarPrice();
 
   if (productsSection.length > 0) {
     productsSection.empty();
@@ -138,8 +139,9 @@ function loadSectionHome() {
 //user visalization in nav bar
 function setUpLogedUser(user) {
   const userSection = $("#user-section");
+  const userDropdown = $("#user-section > .dropdown");
 
-  if (userSection.length > 0) {
+  if (userSection.length > 0 && userDropdown.length == 0) {
     $("#user-section > a.btn.btn-outline-primary, #user-section > a.btn.btn-outline-success").remove();
 
     userSection.append(
@@ -159,10 +161,16 @@ function setUpLogedUser(user) {
 }
 
 //preload user on navigation between pages
-function checkLogedUser() {
+function checkIsUserLogedIn() {
   const storageUser = JSON.parse(localStorage.getItem(localkeys.logedUser));
 
-  if (storageUser) setUpLogedUser(storageUser);
+  if (storageUser) {
+    setUpLogedUser(storageUser);
+
+    return true;
+  }
+
+  return false;
 }
 
 //add product list to cart and retain it in localstorage
@@ -245,7 +253,7 @@ function showCart() {
                   <div class="card-body">
                     <div class="d-flex align-items-end flex-column">
                       <div class="p-2 flex-grow-1">
-                        <a id="${product.id}" class="btn btn-outline-danger col-12" href="#" role="button">Remove</a>
+                        <a id="remove-${product.id}" class="btn btn-outline-danger col-12" href="#" role="button">Remove</a>
                       </div>
                     </div>
                   </div>
@@ -398,9 +406,27 @@ function checkOut() {
   }
 }
 
+//get dolar price adn setup
+function setDolarPrice() {
+  const spanElement = $("#dolar-price");
+
+  if (spanElement.length > 0) {
+    $.get("https://www.dolarsi.com/api/api.php?type=valoresprincipales", (data, status) => {
+      if (status == "success") {
+        const dolarBlueData = data.find((x) => x.casa.nombre === "Dolar Blue");
+        spanElement.text(`Price: 1$ dolar - ${dolarBlueData.casa.venta}$ peso`);
+      } else {
+        console.log(`error: ${status}`);
+      }
+    });
+  }
+}
+
 // checkout logic
 function closeOrder() {
   const finishOrderElement = $("#finish-order");
+
+  if (!checkIsUserLogedIn()) $(location).prop("href", "/pages/signin.html");
 
   if (finishOrderElement.length > 0) {
     const cart = setUpCartObject();
@@ -455,7 +481,7 @@ $(() => {
   loadSectionProduct();
   showItemsCuantity();
   showCart();
-  checkLogedUser();
+  checkIsUserLogedIn();
 
   //user login
   $("#signin").click((e) => {
@@ -552,10 +578,12 @@ $(() => {
 
     if (userSection.length > 0) {
       $("#user-section > div.dropdown").remove();
+      const pathname = window.location.pathname;
+      const hrefpartialData = pathname.includes("/index.html") || pathname.includes("/") ? "./" : "../pages/";
       userSection.append(
         `
-            <a class="btn btn-outline-primary me-3" href="./pages/signin.html" role="button">Sing in</a>
-            <a class="btn btn-outline-success me-3" href="./pages/signup.html" role="button">Sign up</a>
+            <a class="btn btn-outline-primary me-3" href="./${hrefpartialData}signin.html" role="button">Sing in</a>
+            <a class="btn btn-outline-success me-3" href="./${hrefpartialData}signup.html" role="button">Sign up</a>
           `
       );
       localStorage.removeItem(localkeys.logedUser);
@@ -586,6 +614,18 @@ $(() => {
     loadSectionProduct("category", "memory");
   });
 
+  $("#psu").click(() => {
+    loadSectionProduct("category", "psu");
+  });
+
+  $("#motherboard").click(() => {
+    loadSectionProduct("category", "motherboard");
+  });
+
+  $("#monitor").click(() => {
+    loadSectionProduct("category", "monitor");
+  });
+
   $("#clear").click(() => {
     loadSectionProduct();
   });
@@ -597,11 +637,11 @@ $(() => {
 
   $("#order-low").click(() => {
     const productIdList = getProductIdList();
-    loadSectionProduct("id", productIdList, "desc");
+    loadSectionProduct("id", productIdList, "asc");
   });
 
   $("#order-hight").click(() => {
     const productIdList = getProductIdList();
-    loadSectionProduct("id", productIdList, "asc");
+    loadSectionProduct("id", productIdList, "desc");
   });
 });
