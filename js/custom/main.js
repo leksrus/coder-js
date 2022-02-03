@@ -36,6 +36,12 @@ function loadProductsWithNameFilter(name, productsSection) {
   });
 }
 
+function loadProductsWithIdListAndOrderBy(productIdList, orderCriteria, productsSection) {
+  getProductsWithIdListAndOrderByCriteria(productIdList, orderCriteria).then((dbProducts) => {
+    loadProductHtml(dbProducts, productsSection, true);
+  });
+}
+
 //adding html in products
 function loadProductHtml(products, productsSection, isForAddCart) {
   productsSection.empty();
@@ -79,7 +85,7 @@ function loadProductHtml(products, productsSection, isForAddCart) {
 }
 
 //load product view vith products or apply filter
-function loadSectionProduct(filterType, filter) {
+function loadSectionProduct(filterType, filter, orderByCriteria) {
   const productsSection = $("#product-list-section > .row");
 
   if (productsSection.length > 0) {
@@ -99,6 +105,10 @@ function loadSectionProduct(filterType, filter) {
 
       case "name":
         loadProductsWithNameFilter(filter, productsSection);
+        break;
+
+      case "id":
+        loadProductsWithIdListAndOrderBy(filter, orderByCriteria, productsSection);
         break;
 
       default:
@@ -269,7 +279,7 @@ function bindCartEvents(product, cartElment) {
       .next(".count")
       .text(`${prodCount + 1}`);
     addProductToCart(productId);
-    $(`#price-${productId}`).text("$" + productTotalPice(productId));
+    $(`#price-${productId}`).text("$" + productProductPrice(productId));
   });
 
   //bind event to remove item from cart by minus button
@@ -280,7 +290,7 @@ function bindCartEvents(product, cartElment) {
       .prev(".count")
       .text(`${prodCount - 1}`);
     removeProductFromCart(productId);
-    $(`#price-${productId}`).text("$" + productTotalPice(productId));
+    $(`#price-${productId}`).text("$" + productProductPrice(productId));
     if (prodCount - 1 === 0) $("#cart-list").find(`#${productId}`).closest(".row.align-items-start").remove();
   });
 }
@@ -292,7 +302,8 @@ function productCount(productId) {
   return cart.getProducts().filter((x) => x.id === productId).length;
 }
 
-function productTotalPice(productId) {
+//get product price
+function productProductPrice(productId) {
   const cart = setUpCartObject();
 
   return cart.showCartItems()?.find((x) => x.id == productId)?.price;
@@ -419,11 +430,24 @@ function getDiscount(cart) {
   return discount;
 }
 
+//clear all cart after complete order
 function clearCartOrder() {
   localStorage.removeItem(localkeys.cartProducts);
   const cartItemElements = $("#cart-list > .align-items-start");
   cartItemElements.remove();
   showItemsCuantity();
+}
+
+//get products id in current page
+
+function getProductIdList() {
+  const productIdList = [];
+  $("div > button.btn-custom").each((i, e) => {
+    const productId = parseInt($(e).attr("id"));
+    productIdList.push(productId);
+  });
+
+  return productIdList;
 }
 
 $(() => {
@@ -569,5 +593,15 @@ $(() => {
   $("#button-search").click(() => {
     const inputCaption = $("#input-search").val();
     loadSectionProduct("name", inputCaption.toLowerCase().charAt(0).toUpperCase() + inputCaption.slice(1));
+  });
+
+  $("#order-low").click(() => {
+    const productIdList = getProductIdList();
+    loadSectionProduct("id", productIdList, "desc");
+  });
+
+  $("#order-hight").click(() => {
+    const productIdList = getProductIdList();
+    loadSectionProduct("id", productIdList, "asc");
   });
 });

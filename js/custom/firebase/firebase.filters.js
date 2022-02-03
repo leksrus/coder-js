@@ -70,3 +70,16 @@ async function filterProductsByName(name) {
       }
     });
 }
+
+async function getProductsWithIdListAndOrderByCriteria(productIdList, orderCriteria) {
+  return db
+    .collection("products")
+    .where("id", "in", productIdList)
+    .orderBy("price", orderCriteria)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs.map((doc) => doc.data());
+      }
+    });
+}
