@@ -1,3 +1,32 @@
+$size-25px: 25px;
+
+@mixin footer-img($size) {
+  height: $size;
+  width: $size;
+}
+
+.footer-img {
+  @include footer-img($size-25px);
+}
+
+.careers {
+  cursor: pointer;
+  color: #1e88e5;
+}
+
 .footer-container {
-  background-color: darkslategray;
+  color: #caced1;
+  margin-top: 25px;
+}
+
+.row-1 {
+  background-color: #1e242a;
+}
+
+.row-2 {
+  background-color: #28323c;
+}
+
+.margin-top {
+  margin-top: 175px;
 }

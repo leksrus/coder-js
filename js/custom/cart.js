@@ -12,7 +12,10 @@ class Cart {
 
     if (prod === undefined) return;
 
-    this.products.shift(product);
+    this.products.splice(
+      this.products.findIndex((x) => x.id === prod.id),
+      1
+    );
   }
 
   getProducts() {

@@ -45,3 +45,41 @@ async function getAllProducts() {
       }
     });
 }
+
+async function filterProductsByCategory(category) {
+  return db
+    .collection("products")
+    .where("category", "==", category)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs.map((doc) => doc.data());
+      }
+    });
+}
+
+async function filterProductsByName(name) {
+  return db
+    .collection("products")
+    .where("name", ">=", name)
+    .where("name", "<=", name + "\uf8ff")
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs.map((doc) => doc.data());
+      }
+    });
+}
+
+async function getProductsWithIdListAndOrderByCriteria(productIdList, orderCriteria) {
+  return db
+    .collection("products")
+    .where("id", "in", productIdList)
+    .orderBy("price", orderCriteria)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs.map((doc) => doc.data());
+      }
+    });
+}

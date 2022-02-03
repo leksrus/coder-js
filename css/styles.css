@@ -122,17 +122,35 @@
   max-height: 600px;
 }
 
-.spinner {
-  width: 120px;
-  height: 120px;
-}
-
 .hide-element {
   display: none;
 }
 
+.footer-img {
+  height: 25px;
+  width: 25px;
+}
+
+.careers {
+  cursor: pointer;
+  color: #1e88e5;
+}
+
 .footer-container {
-  background-color: darkslategray;
+  color: #caced1;
+  margin-top: 25px;
+}
+
+.row-1 {
+  background-color: #1e242a;
+}
+
+.row-2 {
+  background-color: #28323c;
+}
+
+.margin-top {
+  margin-top: 175px;
 }
 
 .menu li {
@@ -172,6 +190,9 @@
   .mt-mobile-20 {
     margin-top: 20px;
   }
+  .margin-top {
+    margin-top: 15px;
+  }
 }
 
 * {
@@ -207,4 +228,9 @@
 
 .size-35 {
   font-size: 35px;
+}
+
+.spinner {
+  width: 120px;
+  height: 120px;
 }

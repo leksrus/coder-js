@@ -80,7 +80,10 @@
       <!-- filter section -->
       <section class="container">
         <div class="row">
-          <div class="col-12 col-md-8 col-lg-8">
+          <div class="col-12 col-md-2 col-lg-2">
+            <h5><span id="dolar-price" class="badge bg-light text-dark"></span></h5>
+          </div>
+          <div class="col-12 col-md-6 col-lg-6">
             <ul class="nav nav-pills justify-content-end">
               <li class="nav-item dropdown me-3">
                 <a class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
@@ -95,14 +98,17 @@
                   Products Filter
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="#">CPUs</a></li>
-                  <li><a class="dropdown-item" href="#">Keyboards</a></li>
-                  <li><a class="dropdown-item" href="#">Mouses</a></li>
-                  <li><a class="dropdown-item" href="#">SSDs</a></li>
-                  <li><a class="dropdown-item" href="#">Video Cards</a></li>
-                  <li><a class="dropdown-item" href="#">RAM Mermories</a></li>
+                  <li><a id="cpu" class="dropdown-item" href="#">CPUs</a></li>
+                  <li><a id="keyboard" class="dropdown-item" href="#">Keyboards</a></li>
+                  <li><a id="mouse" class="dropdown-item" href="#">Mouses</a></li>
+                  <li><a id="ssd" class="dropdown-item" href="#">SSDs</a></li>
+                  <li><a id="gpu" class="dropdown-item" href="#">Video Cards</a></li>
+                  <li><a id="memory" class="dropdown-item" href="#">RAM Mermories</a></li>
+                  <li><a id="psu" class="dropdown-item" href="#">Power Supply Unit</a></li>
+                  <li><a id="motherboard" class="dropdown-item" href="#">Motherboards</a></li>
+                  <li><a id="monitor" class="dropdown-item" href="#">Monitors</a></li>
                   <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="#">Clear all</a></li>
+                  <li><a id="clear" class="dropdown-item" href="#">Clear all</a></li>
                 </ul>
               </li>
               <li class="nav-item dropdown">
@@ -115,8 +121,8 @@
                   Sort by</a
                 >
                 <ul class="dropdown-menu dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="#">Low to hight price</a></li>
-                  <li><a class="dropdown-item" href="#">Hight to low price</a></li>
+                  <li><a id="order-low" class="dropdown-item" href="#">Low to hight price</a></li>
+                  <li><a id="order-hight" class="dropdown-item" href="#">Hight to low price</a></li>
                 </ul>
               </li>
             </ul>
@@ -131,9 +137,9 @@
                     ></path>
                   </svg>
                 </span>
-                <input type="search" class="form-control me-2" placeholder="Search" aria-label="Search" aria-describedby="search" />
+                <input id="input-search" type="search" class="form-control me-2" placeholder="Search" aria-label="Search" aria-describedby="search" />
               </div>
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button id="button-search" class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
         </div>
@@ -250,21 +256,57 @@
       </section>
     </main>
     <!-- footer con redes y metodo de contacto -->
-    <footer
-      class="d-flex align-content-center justify-content-center justify-content-sm-center justify-content-md-between justify-content-lg-between footer-container mt-5"
-    >
-      <div class="m-5">
-        <a href="https://instagram.com" target="_blank">
-          <img src="../images/instagram.png" width="50px" alt="our instagram" />
-        </a>
+    <footer class="container-fluid footer-container">
+      <div class="row justify-content-center pt-4 pb-4 row-2">
+        <div class="col-12">
+          <div class="row row-2">
+            <div class="col-12 col-md-4 col-lg-4 text-center">
+              <h5 class="font-share-tech-mono footer-title-color">
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                    <path
+                      d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"
+                    /></svg></span
+                ><b> Tech Market Store</b>
+              </h5>
+            </div>
+            <div class="col-6 col-md-3 col-lg-3 offset-0 offset-md-2 offset-lg-2 my-sm-0 mt-5">
+              <ul class="list-unstyled">
+                <li>Customers</li>
+                <li>Information</li>
+                <li>Customers Services</li>
+              </ul>
+            </div>
+            <div class="col-6 col-md-3 col-lg-3 my-sm-0 mt-5">
+              <ul class="list-unstyled">
+                <li>Company</li>
+                <li>About</li>
+                <li>Careers - <span class="careers">We're-hiring</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="m-5">
-        <a href="https://facebook.com" target="_blank">
-          <img src="../images/facebook.ico" width="50px" alt="our facebook" />
-        </a>
-      </div>
-      <div class="m-5">
-        <img src="../images/whatsapp.png" width="50px" alt="our whatsapp" />
+      <div class="row justify-content-center row-1">
+        <div class="col-12">
+          <div class="row my-4 row-1">
+            <div class="col-md-4 col-lg-4 col-12 text-center"><small>&#9400; Techno Market</small></div>
+            <div class="col-12 col-md-5 col-lg-5 offset-md-3 offset-lg-3">
+              <div class="d-flex justify-content-center">
+                <small>
+                  <span class="me-1"> contact-info@techmarket.com </span>
+                  <span>
+                    <a href="https://instagram.com" target="_blank"> <img class="footer-img" src="../images/instagram.png" alt="our instagram" /> </a
+                  ></span>
+                  <span>
+                    <a href="https://facebook.com" target="_blank"> <img class="footer-img" src="../images/facebook.ico" alt="our facebook" /> </a
+                  ></span>
+                  <span><img class="footer-img" src="../images/whatsapp.png" alt="our whatsapp" /></span
+                ></small>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
