@@ -13,54 +13,80 @@ function setToLocalStorage(key, item, override) {
   if (override || !storageItem) localStorage.setItem(key, JSON.stringify(item));
 }
 
-//load products
-function loadProducts(productsSection, isForAddCart) {
+//load all products
+function loadAllProducts(productsSection, isForAddCart) {
   getAllProducts().then((dbProducts) => {
     setToLocalStorage(localkeys.productStock, dbProducts, true);
     productsSection.empty();
-    for (const product of dbProducts) {
-      if (isForAddCart) {
-        productsSection.append(
-          `
-              <div class="col-12 col-md-4 col-lg-3">
-                <div class="card text-dark bg-light mb-5 transition">
-                  <img class="card-img-top image-min-height-315" src="..${product.imgSrc}" alt="${product.name}" />
-                  <div class="card-body font-varela">
-                    <h5 class="card-title text-center"><b>${product.name}</b></h5>
-                    <p class="card-text text-center cart-product-price">${product.price}</p>
-                    <p class="card-text">${product.description}</p>
-                    <button id="${product.id}" class="btn-custom">Add to Cart</button>
-                  </div>
-                </div>
-              </div>
-              `
-        );
-        productsSection.find(`#${product.id}`).click(() => {
-          addProduct(parseInt(this.event.target.id));
-        });
-      } else {
-        productsSection.append(
-          `
-          <div class="col-12 col-md-4 col-lg-3">
-            <div class="card text-dark bg-light mb-5 transition">
-              <img class="card-img-top image-min-height-315" src="./${product.imgSrc}" alt="${product.name}" />
-              <div class="card-body font-varela">
-                <h5 class="card-title text-center"><b>${product.name}</b></h5>
-                <p class="card-text text-center cart-product-price">${product.price}</p>
-                <p class="card-text">${product.description}</p>
-              </div>
-            </div>
-          </div>
-          `
-        );
-      }
-    }
+    loadProductHtml(dbProducts, productsSection, isForAddCart);
   });
 }
 
-//load product view vith products
-function loadSectionProduct() {
+//load fitered products
+function loadProductsWithCategoryFilter(category, productsSection) {
+  filterProductsByCategory(category).then((dbProducts) => {
+    loadProductHtml(dbProducts, productsSection, true);
+  });
+}
+
+function loadProductsWithNameFilter(name, productsSection) {
+  filterProductsByName(name).then((dbProducts) => {
+    loadProductHtml(dbProducts, productsSection, true);
+  });
+}
+
+function loadProductsWithIdListAndOrderBy(productIdList, orderCriteria, productsSection) {
+  getProductsWithIdListAndOrderByCriteria(productIdList, orderCriteria).then((dbProducts) => {
+    loadProductHtml(dbProducts, productsSection, true);
+  });
+}
+
+//adding html in products view
+function loadProductHtml(products, productsSection, isForAddCart) {
+  productsSection.empty();
+  for (const product of products) {
+    if (isForAddCart) {
+      productsSection.append(
+        `
+            <div class="col-12 col-md-4 col-lg-3">
+              <div class="card text-dark bg-light mb-5 transition">
+                <img class="card-img-top image-min-height-315" src="..${product.imgSrc}" alt="${product.name}" />
+                <div class="card-body font-varela">
+                  <h5 class="card-title text-center"><b>${product.name}</b></h5>
+                  <p class="card-text text-center cart-product-price">${product.price}</p>
+                  <p class="card-text">${product.description}</p>
+                  <button id="${product.id}" class="btn-custom">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+            `
+      );
+      productsSection.find(`#${product.id}`).click(() => {
+        addProductToCart(parseInt(this.event.target.id));
+      });
+    } else {
+      productsSection.append(
+        `
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card text-dark bg-light mb-5 transition">
+            <img class="card-img-top image-min-height-315" src="./${product.imgSrc}" alt="${product.name}" />
+            <div class="card-body font-varela">
+              <h5 class="card-title text-center"><b>${product.name}</b></h5>
+              <p class="card-text text-center cart-product-price">${product.price}</p>
+              <p class="card-text">${product.description}</p>
+            </div>
+          </div>
+        </div>
+        `
+      );
+    }
+  }
+}
+
+//load product view with products or apply filter
+function loadSectionProduct(filterType, filter, orderByCriteria) {
   const productsSection = $("#product-list-section > .row");
+  setDolarPrice();
 
   if (productsSection.length > 0) {
     productsSection.empty();
@@ -71,11 +97,28 @@ function loadSectionProduct() {
       </div>
       `
     );
-    loadProducts(productsSection, true);
+
+    switch (filterType) {
+      case "category":
+        loadProductsWithCategoryFilter(filter, productsSection);
+        break;
+
+      case "name":
+        loadProductsWithNameFilter(filter, productsSection);
+        break;
+
+      case "id":
+        loadProductsWithIdListAndOrderBy(filter, orderByCriteria, productsSection);
+        break;
+
+      default:
+        loadAllProducts(productsSection, true);
+        break;
+    }
   }
 }
 
-//load home view vith products
+//load home view with products
 function loadSectionHome() {
   const productsSection = $("#product-home-section > .row");
 
@@ -88,15 +131,16 @@ function loadSectionHome() {
       </div>
       `
     );
-    loadProducts(productsSection, false);
+    loadAllProducts(productsSection, false);
   }
 }
 
 //user visalization in nav bar
 function setUpLogedUser(user) {
   const userSection = $("#user-section");
+  const userDropdown = $("#user-section > .dropdown");
 
-  if (userSection.length > 0) {
+  if (userSection.length > 0 && userDropdown.length == 0) {
     $("#user-section > a.btn.btn-outline-primary, #user-section > a.btn.btn-outline-success").remove();
 
     userSection.append(
@@ -115,15 +159,21 @@ function setUpLogedUser(user) {
   }
 }
 
-//preload user on navigation between pages
-function checkLogedUser() {
+//preload user on navigation between pages an check if user already loged
+function checkIsUserLogedIn() {
   const storageUser = JSON.parse(localStorage.getItem(localkeys.logedUser));
 
-  if (storageUser) setUpLogedUser(storageUser);
+  if (storageUser) {
+    setUpLogedUser(storageUser);
+
+    return true;
+  }
+
+  return false;
 }
 
 //add product list to cart and retain it in localstorage
-function addProduct(productId) {
+function addProductToCart(productId) {
   const cart = setUpCartObject();
   const stockProducts = JSON.parse(localStorage.getItem(localkeys.productStock));
 
@@ -202,7 +252,7 @@ function showCart() {
                   <div class="card-body">
                     <div class="d-flex align-items-end flex-column">
                       <div class="p-2 flex-grow-1">
-                        <a id="${product.id}" class="btn btn-outline-danger col-12" href="#" role="button">Remove</a>
+                        <a id="remove-${product.id}" class="btn btn-outline-danger col-12" href="#" role="button">Remove</a>
                       </div>
                     </div>
                   </div>
@@ -221,8 +271,8 @@ function showCart() {
   }
 }
 
+//bind event to remove item from cart
 function bindCartEvents(product, cartElment) {
-  //bind event to remove item from cart
   cartElment.find(`#remove-${product.id}`).click(() => {
     $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
     removeProductFromCart(parseInt(this.event.target.id));
@@ -235,8 +285,8 @@ function bindCartEvents(product, cartElment) {
     $(`#${this.event.target.id}`)
       .next(".count")
       .text(`${prodCount + 1}`);
-    addProduct(productId);
-    $(`#price-${productId}`).text("$" + productTotalPice(productId));
+    addProductToCart(productId);
+    $(`#price-${productId}`).text("$" + productProductPrice(productId));
   });
 
   //bind event to remove item from cart by minus button
@@ -247,7 +297,7 @@ function bindCartEvents(product, cartElment) {
       .prev(".count")
       .text(`${prodCount - 1}`);
     removeProductFromCart(productId);
-    $(`#price-${productId}`).text("$" + productTotalPice(productId));
+    $(`#price-${productId}`).text("$" + productProductPrice(productId));
     if (prodCount - 1 === 0) $("#cart-list").find(`#${productId}`).closest(".row.align-items-start").remove();
   });
 }
@@ -259,7 +309,8 @@ function productCount(productId) {
   return cart.getProducts().filter((x) => x.id === productId).length;
 }
 
-function productTotalPice(productId) {
+//get product price
+function productProductPrice(productId) {
   const cart = setUpCartObject();
 
   return cart.showCartItems()?.find((x) => x.id == productId)?.price;
@@ -294,7 +345,7 @@ function setUpCartObject() {
   return cart;
 }
 
-// checkout logic
+// checkout logic to show modal
 function checkOut() {
   const cart = setUpCartObject();
 
@@ -354,12 +405,31 @@ function checkOut() {
   }
 }
 
-// checkout logic
+//get dolar price and setup information
+function setDolarPrice() {
+  const spanElement = $("#dolar-price");
+
+  if (spanElement.length > 0) {
+    $.get("https://www.dolarsi.com/api/api.php?type=valoresprincipales", (data, status) => {
+      if (status == "success") {
+        const dolarBlueData = data.find((x) => x.casa.nombre === "Dolar Blue");
+        spanElement.text(`Price: 1$ dolar - ${dolarBlueData.casa.venta}$ peso`);
+      } else {
+        console.log(`error: ${status}`);
+      }
+    });
+  }
+}
+
+// checkout logic to close order
 function closeOrder() {
   const finishOrderElement = $("#finish-order");
 
+  if (!checkIsUserLogedIn()) $(location).prop("href", "/pages/signin.html");
+
   if (finishOrderElement.length > 0) {
     const cart = setUpCartObject();
+    //some dummy post for simulate register order
     $.post("https://jsonplaceholder.typicode.com/posts", JSON.stringify(cart.getProducts()), function (res, state) {
       if (state == "success") {
         $("#checkout").modal("toggle");
@@ -386,6 +456,7 @@ function getDiscount(cart) {
   return discount;
 }
 
+//clear all cart after complete order
 function clearCartOrder() {
   localStorage.removeItem(localkeys.cartProducts);
   const cartItemElements = $("#cart-list > .align-items-start");
@@ -393,12 +464,25 @@ function clearCartOrder() {
   showItemsCuantity();
 }
 
+//get products id in current page
+
+function getProductIdList() {
+  const productIdList = [];
+  $("div > button.btn-custom").each((i, e) => {
+    const productId = parseInt($(e).attr("id"));
+    productIdList.push(productId);
+  });
+
+  return productIdList;
+}
+
+//initial load
 $(() => {
   loadSectionHome();
   loadSectionProduct();
   showItemsCuantity();
   showCart();
-  checkLogedUser();
+  checkIsUserLogedIn();
 
   //user login
   $("#signin").click((e) => {
@@ -442,6 +526,7 @@ $(() => {
 
     if (firstName && lastName && userName && password && repeatedPassword) {
       if (password === repeatedPassword) {
+        //get users and do some checks
         getAllUsers().then((dbUsers) => {
           const dbUser = dbUsers.find((x) => x.userName === userName);
 
@@ -458,6 +543,7 @@ $(() => {
           const user = new User(lastUserId + 1, userName, firstName, lastName, password);
 
           createUser(user).then(() => {
+            $("form")[0].reset();
             repeatedPasswordElement.parent().append(
               `
               <label id="message" class="form-label font-mukta" style="color: green;" >Register successful</label>
@@ -495,13 +581,70 @@ $(() => {
 
     if (userSection.length > 0) {
       $("#user-section > div.dropdown").remove();
+      const pathname = window.location.pathname;
+      const hrefpartialData = pathname.includes("/index.html") || pathname.includes("/") ? "./" : "../pages/";
       userSection.append(
         `
-            <a class="btn btn-outline-primary me-3" href="./pages/signin.html" role="button">Sing in</a>
-            <a class="btn btn-outline-success me-3" href="./pages/signup.html" role="button">Sign up</a>
+            <a class="btn btn-outline-primary me-3" href="./${hrefpartialData}signin.html" role="button">Sing in</a>
+            <a class="btn btn-outline-success me-3" href="./${hrefpartialData}signup.html" role="button">Sign up</a>
           `
       );
       localStorage.removeItem(localkeys.logedUser);
     }
+  });
+
+  $("#cpu").click(() => {
+    loadSectionProduct("category", "cpu");
+  });
+
+  $("#keyboard").click(() => {
+    loadSectionProduct("category", "keyboard");
+  });
+
+  $("#mouse").click(() => {
+    loadSectionProduct("category", "mouse");
+  });
+
+  $("#ssd").click(() => {
+    loadSectionProduct("category", "ssd");
+  });
+
+  $("#gpu").click(() => {
+    loadSectionProduct("category", "gpu");
+  });
+
+  $("#memory").click(() => {
+    loadSectionProduct("category", "memory");
+  });
+
+  $("#psu").click(() => {
+    loadSectionProduct("category", "psu");
+  });
+
+  $("#motherboard").click(() => {
+    loadSectionProduct("category", "motherboard");
+  });
+
+  $("#monitor").click(() => {
+    loadSectionProduct("category", "monitor");
+  });
+
+  $("#clear").click(() => {
+    loadSectionProduct();
+  });
+
+  $("#button-search").click(() => {
+    const inputCaption = $("#input-search").val();
+    loadSectionProduct("name", inputCaption.toLowerCase().charAt(0).toUpperCase() + inputCaption.slice(1));
+  });
+
+  $("#order-low").click(() => {
+    const productIdList = getProductIdList();
+    loadSectionProduct("id", productIdList, "asc");
+  });
+
+  $("#order-hight").click(() => {
+    const productIdList = getProductIdList();
+    loadSectionProduct("id", productIdList, "desc");
   });
 });
