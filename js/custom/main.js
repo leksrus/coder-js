@@ -541,6 +541,7 @@ $(() => {
           const user = new User(lastUserId + 1, userName, firstName, lastName, password);
 
           createUser(user).then(() => {
+            $("form")[0].reset();
             repeatedPasswordElement.parent().append(
               `
               <label id="message" class="form-label font-mukta" style="color: green;" >Register successful</label>
