@@ -13,7 +13,7 @@ function setToLocalStorage(key, item, override) {
   if (override || !storageItem) localStorage.setItem(key, JSON.stringify(item));
 }
 
-//load products
+//load all products
 function loadAllProducts(productsSection, isForAddCart) {
   getAllProducts().then((dbProducts) => {
     setToLocalStorage(localkeys.productStock, dbProducts, true);
@@ -23,7 +23,6 @@ function loadAllProducts(productsSection, isForAddCart) {
 }
 
 //load fitered products
-
 function loadProductsWithCategoryFilter(category, productsSection) {
   filterProductsByCategory(category).then((dbProducts) => {
     loadProductHtml(dbProducts, productsSection, true);
@@ -42,7 +41,7 @@ function loadProductsWithIdListAndOrderBy(productIdList, orderCriteria, products
   });
 }
 
-//adding html in products
+//adding html in products view
 function loadProductHtml(products, productsSection, isForAddCart) {
   productsSection.empty();
   for (const product of products) {
@@ -84,7 +83,7 @@ function loadProductHtml(products, productsSection, isForAddCart) {
   }
 }
 
-//load product view vith products or apply filter
+//load product view with products or apply filter
 function loadSectionProduct(filterType, filter, orderByCriteria) {
   const productsSection = $("#product-list-section > .row");
   setDolarPrice();
@@ -119,7 +118,7 @@ function loadSectionProduct(filterType, filter, orderByCriteria) {
   }
 }
 
-//load home view vith products
+//load home view with products
 function loadSectionHome() {
   const productsSection = $("#product-home-section > .row");
 
@@ -160,7 +159,7 @@ function setUpLogedUser(user) {
   }
 }
 
-//preload user on navigation between pages
+//preload user on navigation between pages an check if user already loged
 function checkIsUserLogedIn() {
   const storageUser = JSON.parse(localStorage.getItem(localkeys.logedUser));
 
@@ -272,8 +271,8 @@ function showCart() {
   }
 }
 
+//bind event to remove item from cart
 function bindCartEvents(product, cartElment) {
-  //bind event to remove item from cart
   cartElment.find(`#remove-${product.id}`).click(() => {
     $("#cart-list").find(`#${this.event.target.id}`).closest(".row.align-items-start").remove();
     removeProductFromCart(parseInt(this.event.target.id));
@@ -346,7 +345,7 @@ function setUpCartObject() {
   return cart;
 }
 
-// checkout logic
+// checkout logic to show modal
 function checkOut() {
   const cart = setUpCartObject();
 
@@ -406,7 +405,7 @@ function checkOut() {
   }
 }
 
-//get dolar price adn setup
+//get dolar price and setup information
 function setDolarPrice() {
   const spanElement = $("#dolar-price");
 
@@ -422,7 +421,7 @@ function setDolarPrice() {
   }
 }
 
-// checkout logic
+// checkout logic to close order
 function closeOrder() {
   const finishOrderElement = $("#finish-order");
 
@@ -430,6 +429,7 @@ function closeOrder() {
 
   if (finishOrderElement.length > 0) {
     const cart = setUpCartObject();
+    //some dummy post for simulate register order
     $.post("https://jsonplaceholder.typicode.com/posts", JSON.stringify(cart.getProducts()), function (res, state) {
       if (state == "success") {
         $("#checkout").modal("toggle");
@@ -476,6 +476,7 @@ function getProductIdList() {
   return productIdList;
 }
 
+//initial load
 $(() => {
   loadSectionHome();
   loadSectionProduct();
@@ -525,6 +526,7 @@ $(() => {
 
     if (firstName && lastName && userName && password && repeatedPassword) {
       if (password === repeatedPassword) {
+        //get users and do some checks
         getAllUsers().then((dbUsers) => {
           const dbUser = dbUsers.find((x) => x.userName === userName);
 
